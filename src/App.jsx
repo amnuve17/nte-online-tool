@@ -326,7 +326,6 @@ export default function App() {
                 </div>
               </div>
             </div>
-
             {!canDrawMore && drawn.length > 0 && (
               <div className="text-xs text-zinc-500">
                 Fine pesca: hai raggiunto il limite o il sacchetto è vuoto.
