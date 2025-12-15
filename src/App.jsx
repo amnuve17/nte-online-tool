@@ -278,7 +278,7 @@ export default function App() {
                 onClick={newTest}
                 className="px-4 py-2 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 font-semibold"
               >
-                Nuova Prova
+                Estrai
               </button>
 
               <div className="text-sm text-zinc-700">
