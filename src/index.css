@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+button,
+[type="button"],
+[type="submit"],
+select,
+summary,
+label {
+  cursor: pointer;
+}
+:disabled {
+  cursor: not-allowed;
+}
