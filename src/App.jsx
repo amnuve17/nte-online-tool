@@ -420,7 +420,7 @@ export default function App() {
 
                 <details className="rounded-xl bg-white border border-zinc-200 p-3">
                   <summary className="cursor-pointer font-semibold select-none">
-                    Complicazione
+                    Complicazione (a tutta la scena)
                   </summary>
                   <div className="mt-2 text-sm text-zinc-600">
                     Il Narratore complica la scena: peggiora la situazione o
@@ -430,7 +430,7 @@ export default function App() {
 
                 <details className="rounded-xl bg-white border border-zinc-200 p-3">
                   <summary className="cursor-pointer font-semibold select-none">
-                    Sventura (es. Ferita)
+                    Sventura (al singolo eroe)
                   </summary>
                   <div className="mt-2 text-sm text-zinc-600">
                     Ottieni una sventura: resta finché non viene risolta; quando
