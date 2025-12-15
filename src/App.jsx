@@ -14,14 +14,10 @@ function randInt(maxExclusive) {
   return crypto.getRandomValues(new Uint32Array(1))[0] % maxExclusive;
 }
 
-/**
- * Estrae 1 token dal sacchetto (solo W/B) senza reinserimento.
- * Ritorna "W" o "B" o null se vuoto.
- */
 function drawOneFromCounts(w, b) {
   const total = w + b;
   if (total <= 0) return null;
-  const r = randInt(total); // [0..total-1]
+  const r = randInt(total);
   return r < w ? "W" : "B";
 }
 
@@ -31,46 +27,80 @@ function clampInt(v, min, max) {
   return Math.max(min, Math.min(max, i));
 }
 
+/**
+ * Confusione (tool solo W/B):
+ * per ogni tratto, invece di aggiungere 1 bianco, aggiungiamo 1 token casuale (W/B).
+ * Nota: assumiamo 50/50 perché non stiamo modellando una riserva fisica finita.
+ */
+function randomTraitTokens(nTraits) {
+  let w = 0,
+    b = 0;
+  for (let i = 0; i < nTraits; i++) {
+    if (randInt(2) === 0) w++;
+    else b++;
+  }
+  return { w, b };
+}
+
 export default function App() {
   // --- input “regolamento” ---
-  const [traitsInPlay, setTraitsInPlay] = useState(3); // bianchi
+  const [traitsInPlay, setTraitsInPlay] = useState(3);
   const [difficultyId, setDifficultyId] = useState("normale");
   const [blackOverride, setBlackOverride] = useState(false);
   const [blacksManual, setBlacksManual] = useState(3);
+
+  // --- opzioni prova ---
+  const [maxDraw, setMaxDraw] = useState(4);
+  const [risk, setRisk] = useState(false);
+
+  // Confusione: vale per la PROSSIMA prova; poi si consuma
+  const [confusionNext, setConfusionNext] = useState(false);
+  const [confusionThisTest, setConfusionThisTest] = useState(false);
 
   // --- stato prova corrente (sacchetto e pescate) ---
   const [bagW, setBagW] = useState(3);
   const [bagB, setBagB] = useState(3);
   const [drawn, setDrawn] = useState([]); // ["W","B",...]
-  const [maxDraw, setMaxDraw] = useState(4);
-
-  // tracker opzionale (coerente con scheda: spendi neri per adrenalina/confusione)
-  const [adrenaline, setAdrenaline] = useState(false);
-  const [confusion, setConfusion] = useState(false);
 
   const difficulty = useMemo(
     () => DIFFICULTY.find((d) => d.id === difficultyId) || DIFFICULTY[2],
     [difficultyId]
   );
 
-  const inputBlacks = blackOverride ? clampInt(blacksManual, 0, 99) : difficulty.blacks;
+  const inputBlacks = blackOverride
+    ? clampInt(blacksManual, 0, 99)
+    : difficulty.blacks;
+
   const inputWhites = clampInt(traitsInPlay, 0, 12);
 
+  const effectiveMaxDraw = risk ? 5 : clampInt(maxDraw, 1, 4);
+
   const totalInBag = bagW + bagB;
-  const canDrawMore = drawn.length < clampInt(maxDraw, 1, 4) && totalInBag > 0;
+  const canDrawMore = drawn.length < effectiveMaxDraw && totalInBag > 0;
 
   const drawnW = drawn.filter((x) => x === "W").length;
   const drawnB = drawn.filter((x) => x === "B").length;
 
-  const success = drawnW >= 1; // “un bianco basta”
-  const extraSuccess = Math.max(0, drawnW - 1); // “bianchi extra migliorano”
-  // i neri non annullano: sono complicazioni/sventure “da gestire”
+  const success = drawnW >= 1;
+  const extraSuccess = Math.max(0, drawnW - 1);
   const complications = drawnB;
 
   function newTest() {
+    setDrawn([]);
+
+    if (confusionNext) {
+      const { w, b } = randomTraitTokens(inputWhites);
+      setBagW(w);
+      setBagB(inputBlacks + b);
+
+      setConfusionThisTest(true);
+      setConfusionNext(false); // consumata: vale solo per la prossima prova
+      return;
+    }
+
     setBagW(inputWhites);
     setBagB(inputBlacks);
-    setDrawn([]);
+    setConfusionThisTest(false);
   }
 
   function draw() {
@@ -88,53 +118,37 @@ export default function App() {
     setDifficultyId("normale");
     setBlackOverride(false);
     setBlacksManual(3);
+    setMaxDraw(4);
+    setRisk(false);
+    setConfusionNext(false);
+    setConfusionThisTest(false);
+
     setBagW(3);
     setBagB(3);
     setDrawn([]);
-    setMaxDraw(4);
-    setAdrenaline(false);
-    setConfusion(false);
   }
 
-  function spendBlackTo(kind) {
-    if (drawnB <= 0) return;
-
-    // max 1 per ciascuna condizione
-    if (kind === "adrenaline" && adrenaline) return;
-    if (kind === "confusion" && confusion) return;
-
-    // rimuovi 1 nero “speso” dalla lista pescata (tracking)
-    const idx = drawn.lastIndexOf("B");
-    if (idx === -1) return;
-
-    setDrawn((prev) => {
-      const next = prev.slice();
-      next.splice(idx, 1);
-      return next;
-    });
-
-    if (kind === "adrenaline") setAdrenaline(true);
-    if (kind === "confusion") setConfusion(true);
-  }
-
+  const bagIsSecret = confusionThisTest; // qui la regola richiesta: sacchetto segreto quando Confusione attiva
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-50">
+    <div className="min-h-screen bg-zinc-100 text-zinc-900">
       <div className="mx-auto max-w-5xl p-6 space-y-6">
         <header className="space-y-1">
           <h1 className="text-2xl font-bold">Not the End — Token Bag (W/B)</h1>
-          <p className="text-zinc-300 text-sm">
+          <p className="text-zinc-600 text-sm">
             Sacchetto per prova: bianchi = tratti in gioco, neri = difficoltà.
           </p>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <section className="rounded-2xl bg-zinc-900/60 border border-zinc-800 p-4 space-y-4">
+        {/* IMPORTANT: items-start evita l’altezza “matchata” tra colonne */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          {/* SETUP */}
+          <section className="rounded-2xl bg-white border border-zinc-200 p-4 space-y-4 shadow-sm">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Setup Prova</h2>
               <button
                 onClick={resetAll}
-                className="px-3 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-sm"
+                className="px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 text-sm"
               >
                 Reset
               </button>
@@ -142,24 +156,29 @@ export default function App() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <label className="space-y-1">
-                <div className="text-sm text-zinc-200">Tratti in gioco → Bianchi</div>
+                <div className="text-sm text-zinc-800">Tratti in gioco</div>
                 <input
                   type="number"
                   min={0}
                   max={12}
                   value={traitsInPlay}
-                  onChange={(e) => setTraitsInPlay(clampInt(parseInt(e.target.value, 10), 0, 12))}
-                  className="w-full rounded-xl bg-zinc-950/60 border border-zinc-800 px-3 py-2 outline-none"
+                  onChange={(e) =>
+                    setTraitsInPlay(clampInt(parseInt(e.target.value, 10), 0, 12))
+                  }
+                  className="w-full rounded-xl bg-white border border-zinc-200 px-3 py-2 outline-none focus:ring-2 focus:ring-zinc-200"
                 />
+                <div className="text-xs text-zinc-500">
+                  Normale: +1 bianco per tratto. Confusione: 1 token casuale per tratto.
+                </div>
               </label>
 
               <label className="space-y-1">
-                <div className="text-sm text-zinc-200">Difficoltà</div>
+                <div className="text-sm text-zinc-800">Difficoltà</div>
                 <select
                   value={difficultyId}
                   onChange={(e) => setDifficultyId(e.target.value)}
                   disabled={blackOverride}
-                  className="w-full rounded-xl bg-zinc-950/60 border border-zinc-800 px-3 py-2 outline-none disabled:opacity-60"
+                  className="w-full rounded-xl bg-white border border-zinc-200 px-3 py-2 outline-none disabled:opacity-60 focus:ring-2 focus:ring-zinc-200"
                 >
                   {DIFFICULTY.map((d) => (
                     <option key={d.id} value={d.id}>
@@ -171,10 +190,10 @@ export default function App() {
             </div>
 
             <div className="flex items-center justify-between gap-3">
-              <label className="flex items-center gap-2 text-sm text-zinc-200 select-none">
+              <label className="flex items-center gap-2 text-sm text-zinc-800 select-none">
                 <input
                   type="checkbox"
-                  className="accent-zinc-200"
+                  className="accent-zinc-900"
                   checked={blackOverride}
                   onChange={(e) => setBlackOverride(e.target.checked)}
                 />
@@ -186,58 +205,108 @@ export default function App() {
                 min={0}
                 max={99}
                 value={blacksManual}
-                onChange={(e) => setBlacksManual(clampInt(parseInt(e.target.value, 10), 0, 99))}
+                onChange={(e) =>
+                  setBlacksManual(clampInt(parseInt(e.target.value, 10), 0, 99))
+                }
                 disabled={!blackOverride}
-                className="w-32 rounded-xl bg-zinc-950/60 border border-zinc-800 px-3 py-2 outline-none disabled:opacity-60"
+                className="w-32 rounded-xl bg-white border border-zinc-200 px-3 py-2 outline-none disabled:opacity-60 focus:ring-2 focus:ring-zinc-200"
               />
             </div>
 
-            <div className="flex items-center justify-between gap-3">
-              <label className="text-sm text-zinc-200">Max pescate (1–4)</label>
-              <select
-                value={maxDraw}
-                onChange={(e) => setMaxDraw(clampInt(parseInt(e.target.value, 10), 1, 4))}
-                className="w-24 rounded-xl bg-zinc-950/60 border border-zinc-800 px-3 py-2 outline-none"
-              >
-                {[1, 2, 3, 4].map((n) => (
-                  <option key={n} value={n}>
-                    {n}
-                  </option>
-                ))}
-              </select>
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between gap-3">
+                <label className="text-sm text-zinc-800">Max pescate (1–4)</label>
+                <select
+                  value={maxDraw}
+                  onChange={(e) =>
+                    setMaxDraw(clampInt(parseInt(e.target.value, 10), 1, 4))
+                  }
+                  disabled={risk}
+                  className="w-24 rounded-xl bg-white border border-zinc-200 px-3 py-2 outline-none disabled:opacity-60 focus:ring-2 focus:ring-zinc-200"
+                >
+                  {[1, 2, 3, 4].map((n) => (
+                    <option key={n} value={n}>
+                      {n}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <label className="flex items-center gap-2 text-sm text-zinc-800 select-none">
+                <input
+                  type="checkbox"
+                  className="accent-zinc-900"
+                  checked={risk}
+                  onChange={(e) => setRisk(e.target.checked)}
+                />
+                Rischio (fissa pescate a 5)
+              </label>
+
+              <label className="flex items-center gap-2 text-sm text-zinc-800 select-none">
+                <input
+                  type="checkbox"
+                  className="accent-zinc-900"
+                  checked={confusionNext}
+                  onChange={(e) => setConfusionNext(e.target.checked)}
+                />
+                Confusione (prossima prova: tratti → token casuali)
+              </label>
+
+              {confusionNext && (
+                <div className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-xl p-2">
+                  Confusione “in coda”: verrà consumata alla prossima “Nuova Prova”.
+                </div>
+              )}
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 items-center">
               <button
                 onClick={newTest}
-                className="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 font-semibold"
+                className="px-4 py-2 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 font-semibold"
               >
                 Nuova Prova
               </button>
-              <div className="text-sm text-zinc-300 self-center">
-                Imposterà: <span className="font-semibold">{inputWhites}</span> bianchi +{" "}
+
+              <div className="text-sm text-zinc-700">
+                Base: <span className="font-semibold">{inputWhites}</span> tratti +{" "}
                 <span className="font-semibold">{inputBlacks}</span> neri
+                {risk ? <span className="text-zinc-500"> · rischio attivo</span> : null}
               </div>
             </div>
           </section>
 
           {/* SACCHETTO + PESCA */}
-          <section className="rounded-2xl bg-zinc-900/60 border border-zinc-800 p-4 space-y-4">
+          <section className="rounded-2xl bg-white border border-zinc-200 p-4 space-y-4 shadow-sm">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Sacchetto</h2>
-              <div className="text-sm text-zinc-300">
+              <div className="text-sm text-zinc-700">
                 Rimasti: <span className="font-semibold">{totalInBag}</span>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-xl bg-zinc-950/40 border border-zinc-800 p-3">
-                <div className="text-sm text-zinc-300">Bianchi (successi)</div>
-                <div className="text-2xl font-bold">{bagW}</div>
+            {confusionThisTest && (
+              <div className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-xl p-2">
+                Confusione attiva: la composizione del sacchetto resta segreta.
               </div>
-              <div className="rounded-xl bg-zinc-950/40 border border-zinc-800 p-3">
-                <div className="text-sm text-zinc-300">Neri (complicazioni)</div>
-                <div className="text-2xl font-bold">{bagB}</div>
+            )}
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-xl bg-zinc-50 border border-zinc-200 p-3">
+                <div className="text-sm text-zinc-600">
+                  {bagIsSecret ? "Bianchi (segreto)" : "Bianchi (successi)"}
+                </div>
+                <div className="text-2xl font-bold">
+                  {bagIsSecret ? "?" : bagW}
+                </div>
+              </div>
+
+              <div className="rounded-xl bg-zinc-50 border border-zinc-200 p-3">
+                <div className="text-sm text-zinc-600">
+                  {bagIsSecret ? "Neri (segreto)" : "Neri"}
+                </div>
+                <div className="text-2xl font-bold">
+                  {bagIsSecret ? "?" : bagB}
+                </div>
               </div>
             </div>
 
@@ -245,33 +314,40 @@ export default function App() {
               <button
                 onClick={draw}
                 disabled={!canDrawMore}
-                className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:bg-zinc-700 disabled:text-zinc-300 font-semibold"
+                className="px-4 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-500 disabled:bg-zinc-300 disabled:text-zinc-600 font-semibold"
               >
                 Pesca 1
               </button>
+
               <button
                 onClick={() => {
+                  // Reimposta SOLO la prova corrente.
+                  // Se la prova corrente era in Confusione, la "segretezza" resta coerente con i token generati,
+                  // quindi ricreiamo lo stesso contenuto base *senza* Confusione (come da tuo comportamento precedente).
                   setBagW(inputWhites);
                   setBagB(inputBlacks);
                   setDrawn([]);
+                  setConfusionThisTest(false);
                 }}
-                className="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700"
+                className="px-4 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 border border-zinc-200"
               >
                 Reimposta Prova
               </button>
             </div>
 
-            <div className="rounded-xl bg-zinc-950/40 border border-zinc-800 p-3 space-y-2">
+            <div className="rounded-xl bg-zinc-50 border border-zinc-200 p-3 space-y-3">
               <div className="flex items-center justify-between">
-                <div className="font-semibold">Pescati ({drawn.length}/{clampInt(maxDraw, 1, 4)})</div>
-                <div className="text-xs text-zinc-400">
+                <div className="font-semibold">
+                  Pescati ({drawn.length}/{effectiveMaxDraw})
+                </div>
+                <div className="text-xs text-zinc-600">
                   {success ? "SUCCESSO (almeno 1 bianco)" : "nessun bianco → fallimento"}
                 </div>
               </div>
 
               <div className="flex flex-wrap gap-2">
                 {drawn.length === 0 ? (
-                  <div className="text-sm text-zinc-400">Nessuna pescata.</div>
+                  <div className="text-sm text-zinc-500">Nessuna pescata.</div>
                 ) : (
                   drawn.map((t, i) => (
                     <span
@@ -279,10 +355,10 @@ export default function App() {
                       className={
                         "inline-flex items-center justify-center h-8 w-8 rounded-full border " +
                         (t === "W"
-                          ? "bg-zinc-100 text-zinc-950 border-zinc-300"
-                          : "bg-zinc-950 text-zinc-100 border-zinc-700")
+                          ? "bg-white text-zinc-900 border-zinc-300"
+                          : "bg-zinc-900 text-white border-zinc-900")
                       }
-                      title={t === "W" ? "Bianco (successo)" : "Nero (complicazione)"}
+                      title={t === "W" ? "Bianco (successo)" : "Nero"}
                     >
                       {t}
                     </span>
@@ -290,42 +366,65 @@ export default function App() {
                 )}
               </div>
 
-              <div className="text-sm text-zinc-200">
+              <div className="text-sm text-zinc-800">
                 <div>
                   Successi: <span className="font-semibold">{drawnW}</span>{" "}
                   {drawnW > 0 && (
-                    <span className="text-zinc-400">
+                    <span className="text-zinc-500">
                       (extra miglioramento: {extraSuccess})
                     </span>
                   )}
                 </div>
                 <div>
                   Neri: <span className="font-semibold">{complications}</span>{" "}
-                  <span className="text-zinc-400">(complicazioni/sventure da gestire)</span>
+                  <span className="text-zinc-500">(da “spendere” secondo le regole)</span>
                 </div>
               </div>
 
-              {/* tracker “spendi nero” */}
-              <div className="pt-2 border-t border-zinc-800">
-                <div className="text-sm text-zinc-300 mb-2">Spendi 1 nero per:</div>
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    onClick={() => spendBlackTo("adrenaline")}
-                    disabled={drawnB <= 0 || adrenaline}
-                    className="px-3 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 disabled:opacity-50 text-sm"
-                  >
-                    Adrenalina {adrenaline ? "✓" : ""}
-                  </button>
-                  <button
-                    onClick={() => spendBlackTo("confusion")}
-                    disabled={drawnB <= 0 || confusion}
-                    className="px-3 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 disabled:opacity-50 text-sm"
-                  >
-                    Confusione {confusion ? "✓" : ""}
-                  </button>
+              {/* Dropdown azioni nere */}
+              <div className="pt-2 border-t border-zinc-200 space-y-2">
+                <div className="text-sm text-zinc-700">
+                  Per ogni token nero scegli una conseguenza:
                 </div>
+
+                <details className="rounded-xl bg-white border border-zinc-200 p-3">
+                  <summary className="cursor-pointer font-semibold select-none">
+                    Complicazione
+                  </summary>
+                  <div className="mt-2 text-sm text-zinc-600">
+                    Il Narratore complica la scena: peggiora la situazione o alza la pressione narrativa.
+                  </div>
+                </details>
+
+                <details className="rounded-xl bg-white border border-zinc-200 p-3">
+                  <summary className="cursor-pointer font-semibold select-none">
+                    Sventura (es. Ferita)
+                  </summary>
+                  <div className="mt-2 text-sm text-zinc-600">
+                    Ottieni una sventura: resta finché non viene risolta; quando entra in gioco, aggiunge neri al sacchetto.
+                  </div>
+                </details>
+
+                <details className="rounded-xl bg-white border border-zinc-200 p-3">
+                  <summary className="cursor-pointer font-semibold select-none">
+                    Adrenalina
+                  </summary>
+                  <div className="mt-2 text-sm text-zinc-600">
+                    Metti 1 nero su Adrenalina: nella prossima prova sei obbligato a estrarre 4 token, poi si rimuove.
+                  </div>
+                </details>
+
+                <details className="rounded-xl bg-white border border-zinc-200 p-3">
+                  <summary className="cursor-pointer font-semibold select-none">
+                    Confusione
+                  </summary>
+                  <div className="mt-2 text-sm text-zinc-600">
+                    Metti 1 nero su Confusione: nella prossima prova i tratti non danno bianchi garantiti ma token casuali, poi si rimuove.
+                  </div>
+                </details>
               </div>
             </div>
+
             {!canDrawMore && drawn.length > 0 && (
               <div className="text-xs text-zinc-500">
                 Fine pesca: hai raggiunto il limite o il sacchetto è vuoto.
