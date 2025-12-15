@@ -43,7 +43,6 @@ function randomTraitTokens(nTraits) {
 }
 
 export default function App() {
-
   // --- input “regolamento” ---
   const [traitsInPlay, setTraitsInPlay] = useState(3);
   const [difficultyId, setDifficultyId] = useState("normale");
@@ -146,7 +145,10 @@ export default function App() {
   const bagIsSecret = confusionThisTest;
 
   const canRisk =
-    !riskActive && drawn.length === baseMaxDraw && baseMaxDraw < 5 && totalInBag > 0;
+    !riskActive &&
+    drawn.length === baseMaxDraw &&
+    baseMaxDraw < 5 &&
+    totalInBag > 0;
 
   return (
     <div className="min-h-screen bg-zinc-100 text-zinc-900">
@@ -180,12 +182,15 @@ export default function App() {
                   max={12}
                   value={traitsInPlay}
                   onChange={(e) =>
-                    setTraitsInPlay(clampInt(parseInt(e.target.value, 10), 0, 12))
+                    setTraitsInPlay(
+                      clampInt(parseInt(e.target.value, 10), 0, 12)
+                    )
                   }
                   className="w-full rounded-xl bg-white border border-zinc-200 px-3 py-2 outline-none focus:ring-2 focus:ring-zinc-200"
                 />
                 <div className="text-xs text-zinc-500">
-                  Normale: +1 bianco per tratto. Confusione: 1 token casuale per tratto.
+                  Normale: +1 bianco per tratto. Confusione: 1 token casuale per
+                  tratto.
                 </div>
               </label>
 
@@ -232,7 +237,9 @@ export default function App() {
 
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between gap-3">
-                <label className="text-sm text-zinc-800">Max pescate base (1–4)</label>
+                <label className="text-sm text-zinc-800">
+                  Max pescate base (1–4)
+                </label>
                 <select
                   value={maxDraw}
                   onChange={(e) =>
@@ -260,7 +267,8 @@ export default function App() {
 
               {confusionNext && (
                 <div className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-xl p-2">
-                  Confusione “in coda”: verrà consumata alla prossima “Nuova Prova”.
+                  Confusione “in coda”: verrà consumata alla prossima “Nuova
+                  Prova”.
                 </div>
               )}
             </div>
@@ -274,8 +282,9 @@ export default function App() {
               </button>
 
               <div className="text-sm text-zinc-700">
-                Base: <span className="font-semibold">{inputWhites}</span> tratti +{" "}
-                <span className="font-semibold">{inputBlacks}</span> neri
+                Base: <span className="font-semibold">{inputWhites}</span>{" "}
+                tratti + <span className="font-semibold">{inputBlacks}</span>{" "}
+                neri
               </div>
             </div>
           </section>
@@ -300,14 +309,18 @@ export default function App() {
                 <div className="text-sm text-zinc-600">
                   {bagIsSecret ? "Bianchi (segreto)" : "Bianchi (successi)"}
                 </div>
-                <div className="text-2xl font-bold">{bagIsSecret ? "?" : bagW}</div>
+                <div className="text-2xl font-bold">
+                  {bagIsSecret ? "?" : bagW}
+                </div>
               </div>
 
               <div className="rounded-xl bg-zinc-50 border border-zinc-200 p-3">
                 <div className="text-sm text-zinc-600">
                   {bagIsSecret ? "Neri (segreto)" : "Neri"}
                 </div>
-                <div className="text-2xl font-bold">{bagIsSecret ? "?" : bagB}</div>
+                <div className="text-2xl font-bold">
+                  {bagIsSecret ? "?" : bagB}
+                </div>
               </div>
             </div>
 
@@ -344,7 +357,10 @@ export default function App() {
             </div>
 
             <div>
-              <p className="text-xs text-zinc-500">* Rischiare regala al narratore tutti i token neri estratti. Rischia solo quando è davvero importante!</p>
+              <p className="text-xs text-zinc-500">
+                * Rischiare regala al narratore tutti i token neri estratti.
+                Rischia solo quando è davvero importante!
+              </p>
             </div>
 
             <div className="rounded-xl bg-zinc-50 border border-zinc-200 p-3 space-y-3">
@@ -353,7 +369,9 @@ export default function App() {
                   Pescati ({drawn.length}/{effectiveMaxDraw})
                 </div>
                 <div className="text-xs text-zinc-600">
-                  {success ? "SUCCESSO (almeno 1 bianco)" : "nessun bianco → fallimento"}
+                  {success
+                    ? "SUCCESSO (almeno 1 bianco)"
+                    : "nessun bianco → fallimento"}
                 </div>
               </div>
 
@@ -382,12 +400,16 @@ export default function App() {
                 <div>
                   Successi: <span className="font-semibold">{drawnW}</span>{" "}
                   {drawnW > 0 && (
-                    <span className="text-zinc-500">(extra miglioramento: {extraSuccess})</span>
+                    <span className="text-zinc-500">
+                      (extra miglioramento: {extraSuccess})
+                    </span>
                   )}
                 </div>
                 <div>
                   Neri: <span className="font-semibold">{complications}</span>{" "}
-                  <span className="text-zinc-500">(da “spendere” secondo le regole)</span>
+                  <span className="text-zinc-500">
+                    (da “spendere” secondo le regole)
+                  </span>
                 </div>
               </div>
 
@@ -401,7 +423,8 @@ export default function App() {
                     Complicazione
                   </summary>
                   <div className="mt-2 text-sm text-zinc-600">
-                    Il Narratore complica la scena: peggiora la situazione o alza la pressione narrativa.
+                    Il Narratore complica la scena: peggiora la situazione o
+                    alza la pressione narrativa.
                   </div>
                 </details>
 
@@ -410,7 +433,8 @@ export default function App() {
                     Sventura (es. Ferita)
                   </summary>
                   <div className="mt-2 text-sm text-zinc-600">
-                    Ottieni una sventura: resta finché non viene risolta; quando entra in gioco, aggiunge neri al sacchetto.
+                    Ottieni una sventura: resta finché non viene risolta; quando
+                    entra in gioco, aggiunge neri al sacchetto.
                   </div>
                 </details>
 
@@ -419,7 +443,8 @@ export default function App() {
                     Adrenalina
                   </summary>
                   <div className="mt-2 text-sm text-zinc-600">
-                    Metti 1 nero su Adrenalina: nella prossima prova sei obbligato a estrarre 4 token, poi si rimuove.
+                    Metti 1 nero su Adrenalina: nella prossima prova sei
+                    obbligato a estrarre 4 token, poi si rimuove.
                   </div>
                 </details>
 
@@ -428,7 +453,9 @@ export default function App() {
                     Confusione
                   </summary>
                   <div className="mt-2 text-sm text-zinc-600">
-                    Metti 1 nero su Confusione: nella prossima prova i tratti non danno bianchi garantiti ma token casuali, poi si rimuove.
+                    Metti 1 nero su Confusione: nella prossima prova i tratti
+                    non danno bianchi garantiti ma token casuali, poi si
+                    rimuove.
                   </div>
                 </details>
               </div>
