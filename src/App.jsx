@@ -134,8 +134,8 @@ export default function App() {
     <div className="min-h-screen bg-zinc-100 text-zinc-900">
       <div className="mx-auto max-w-5xl p-6 space-y-6">
         <header className="space-y-1">
-          <h1 className="text-2xl font-bold">Not the End — Token Bag (W/B)</h1>
-          <p className="text-zinc-600 text-sm">
+          <h1 className="text-4xl font-bold">NOT THE END - TOKEN BAG (W/B)</h1>
+          <p className="text-zinc-700 text-sm">
             Sacchetto per prova: bianchi = tratti in gioco, neri = difficoltà.
           </p>
         </header>
