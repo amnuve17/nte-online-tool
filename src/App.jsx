@@ -28,7 +28,7 @@ function clampInt(v, min, max) {
 }
 
 /**
- * Confusione (tool solo W/B):
+ * Confusione:
  * per ogni tratto, invece di aggiungere 1 bianco, aggiungiamo 1 token casuale (W/B).
  * Nota: assumiamo 50/50 perché non stiamo modellando una riserva fisica finita.
  */
@@ -43,6 +43,7 @@ function randomTraitTokens(nTraits) {
 }
 
 export default function App() {
+
   // --- input “regolamento” ---
   const [traitsInPlay, setTraitsInPlay] = useState(3);
   const [difficultyId, setDifficultyId] = useState("normale");
@@ -50,8 +51,10 @@ export default function App() {
   const [blacksManual, setBlacksManual] = useState(3);
 
   // --- opzioni prova ---
-  const [maxDraw, setMaxDraw] = useState(4);
-  const [risk, setRisk] = useState(false);
+  const [maxDraw, setMaxDraw] = useState(4); // limite base 1–4
+
+  // Rischio: si decide DOPO le pescate base, e porta a 5 totali
+  const [riskActive, setRiskActive] = useState(false);
 
   // Confusione: vale per la PROSSIMA prova; poi si consuma
   const [confusionNext, setConfusionNext] = useState(false);
@@ -73,7 +76,8 @@ export default function App() {
 
   const inputWhites = clampInt(traitsInPlay, 0, 12);
 
-  const effectiveMaxDraw = risk ? 5 : clampInt(maxDraw, 1, 4);
+  const baseMaxDraw = clampInt(maxDraw, 1, 4);
+  const effectiveMaxDraw = riskActive ? 5 : baseMaxDraw;
 
   const totalInBag = bagW + bagB;
   const canDrawMore = drawn.length < effectiveMaxDraw && totalInBag > 0;
@@ -87,6 +91,7 @@ export default function App() {
 
   function newTest() {
     setDrawn([]);
+    setRiskActive(false); // ogni nuova prova parte senza rischio
 
     if (confusionNext) {
       const { w, b } = randomTraitTokens(inputWhites);
@@ -94,7 +99,7 @@ export default function App() {
       setBagB(inputBlacks + b);
 
       setConfusionThisTest(true);
-      setConfusionNext(false); // consumata: vale solo per la prossima prova
+      setConfusionNext(false);
       return;
     }
 
@@ -113,13 +118,23 @@ export default function App() {
     else setBagB((x) => x - 1);
   }
 
+  function risk() {
+    // puoi rischiare solo dopo aver completato le pescate base
+    if (riskActive) return;
+    if (drawn.length !== baseMaxDraw) return;
+    if (totalInBag <= 0) return;
+    setRiskActive(true); // ora puoi arrivare a 5 totali, stesso sacchetto
+  }
+
   function resetAll() {
     setTraitsInPlay(3);
     setDifficultyId("normale");
     setBlackOverride(false);
     setBlacksManual(3);
     setMaxDraw(4);
-    setRisk(false);
+
+    setRiskActive(false);
+
     setConfusionNext(false);
     setConfusionThisTest(false);
 
@@ -128,7 +143,10 @@ export default function App() {
     setDrawn([]);
   }
 
-  const bagIsSecret = confusionThisTest; // qui la regola richiesta: sacchetto segreto quando Confusione attiva
+  const bagIsSecret = confusionThisTest;
+
+  const canRisk =
+    !riskActive && drawn.length === baseMaxDraw && baseMaxDraw < 5 && totalInBag > 0;
 
   return (
     <div className="min-h-screen bg-zinc-100 text-zinc-900">
@@ -140,7 +158,6 @@ export default function App() {
           </p>
         </header>
 
-        {/* IMPORTANT: items-start evita l’altezza “matchata” tra colonne */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
           {/* SETUP */}
           <section className="rounded-2xl bg-white border border-zinc-200 p-4 space-y-4 shadow-sm">
@@ -215,14 +232,13 @@ export default function App() {
 
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between gap-3">
-                <label className="text-sm text-zinc-800">Max pescate (1–4)</label>
+                <label className="text-sm text-zinc-800">Max pescate base (1–4)</label>
                 <select
                   value={maxDraw}
                   onChange={(e) =>
                     setMaxDraw(clampInt(parseInt(e.target.value, 10), 1, 4))
                   }
-                  disabled={risk}
-                  className="w-24 rounded-xl bg-white border border-zinc-200 px-3 py-2 outline-none disabled:opacity-60 focus:ring-2 focus:ring-zinc-200"
+                  className="w-24 rounded-xl bg-white border border-zinc-200 px-3 py-2 outline-none focus:ring-2 focus:ring-zinc-200"
                 >
                   {[1, 2, 3, 4].map((n) => (
                     <option key={n} value={n}>
@@ -231,16 +247,6 @@ export default function App() {
                   ))}
                 </select>
               </div>
-
-              <label className="flex items-center gap-2 text-sm text-zinc-800 select-none">
-                <input
-                  type="checkbox"
-                  className="accent-zinc-900"
-                  checked={risk}
-                  onChange={(e) => setRisk(e.target.checked)}
-                />
-                Rischio (fissa pescate a 5)
-              </label>
 
               <label className="flex items-center gap-2 text-sm text-zinc-800 select-none">
                 <input
@@ -270,7 +276,6 @@ export default function App() {
               <div className="text-sm text-zinc-700">
                 Base: <span className="font-semibold">{inputWhites}</span> tratti +{" "}
                 <span className="font-semibold">{inputBlacks}</span> neri
-                {risk ? <span className="text-zinc-500"> · rischio attivo</span> : null}
               </div>
             </div>
           </section>
@@ -295,18 +300,14 @@ export default function App() {
                 <div className="text-sm text-zinc-600">
                   {bagIsSecret ? "Bianchi (segreto)" : "Bianchi (successi)"}
                 </div>
-                <div className="text-2xl font-bold">
-                  {bagIsSecret ? "?" : bagW}
-                </div>
+                <div className="text-2xl font-bold">{bagIsSecret ? "?" : bagW}</div>
               </div>
 
               <div className="rounded-xl bg-zinc-50 border border-zinc-200 p-3">
                 <div className="text-sm text-zinc-600">
                   {bagIsSecret ? "Neri (segreto)" : "Neri"}
                 </div>
-                <div className="text-2xl font-bold">
-                  {bagIsSecret ? "?" : bagB}
-                </div>
+                <div className="text-2xl font-bold">{bagIsSecret ? "?" : bagB}</div>
               </div>
             </div>
 
@@ -320,19 +321,30 @@ export default function App() {
               </button>
 
               <button
+                onClick={risk}
+                disabled={!canRisk}
+                className="px-4 py-2 rounded-xl bg-red-600 text-white hover:bg-red-700 disabled:bg-zinc-300 disabled:text-zinc-600 font-semibold"
+                title="Dopo le pescate base puoi rischiare per arrivare a 5 totali"
+              >
+                Rischia (arriva a 5)*
+              </button>
+
+              <button
                 onClick={() => {
-                  // Reimposta SOLO la prova corrente.
-                  // Se la prova corrente era in Confusione, la "segretezza" resta coerente con i token generati,
-                  // quindi ricreiamo lo stesso contenuto base *senza* Confusione (come da tuo comportamento precedente).
                   setBagW(inputWhites);
                   setBagB(inputBlacks);
                   setDrawn([]);
                   setConfusionThisTest(false);
+                  setRiskActive(false);
                 }}
                 className="px-4 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 border border-zinc-200"
               >
                 Reimposta Prova
               </button>
+            </div>
+
+            <div>
+              <p className="text-xs text-zinc-500">* Rischiare regala al narratore tutti i token neri estratti. Rischia solo quando è davvero importante!</p>
             </div>
 
             <div className="rounded-xl bg-zinc-50 border border-zinc-200 p-3 space-y-3">
@@ -370,9 +382,7 @@ export default function App() {
                 <div>
                   Successi: <span className="font-semibold">{drawnW}</span>{" "}
                   {drawnW > 0 && (
-                    <span className="text-zinc-500">
-                      (extra miglioramento: {extraSuccess})
-                    </span>
+                    <span className="text-zinc-500">(extra miglioramento: {extraSuccess})</span>
                   )}
                 </div>
                 <div>
@@ -381,7 +391,6 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Dropdown azioni nere */}
               <div className="pt-2 border-t border-zinc-200 space-y-2">
                 <div className="text-sm text-zinc-700">
                   Per ogni token nero scegli una conseguenza:
