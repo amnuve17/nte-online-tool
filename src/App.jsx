@@ -219,7 +219,7 @@ export default function App() {
                   checked={blackOverride}
                   onChange={(e) => setBlackOverride(e.target.checked)}
                 />
-                override neri (manuale)
+                Override neri (manuale)
               </label>
 
               <input
