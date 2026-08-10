@@ -1,13 +1,14 @@
+import { useTranslations } from "../i18n/LanguageContext.jsx";
 import DrawSlot from "./DrawSlot.jsx";
-import t from "../i18n/index.js";
 
 export default function DrawRecap({ bag }) {
+  const { t } = useTranslations();
   const { drawn, effectiveMaxDraw, drawnW, complications } = bag;
 
   const slots = Array.from({ length: effectiveMaxDraw }, (_, i) => {
-    const t = drawn[i];
-    if (t === "W") return "success";
-    if (t === "B") return "complication";
+    const token = drawn[i];
+    if (token === "W") return "success";
+    if (token === "B") return "complication";
     return "empty";
   });
 

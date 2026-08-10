@@ -12,8 +12,8 @@
   },
   "landing": {
     "subtitle": "Token Bag",
-    "description": "Inizializza la partita e poi fai bla bla bla in poche parole.",
-    "helpLink": "Non sai giocare? Ti aiutiamo noi.",
+    "description": "Premi start poi effettua il setup del tuo sacchetto ed estrai i risultati. Al momento sono coperte tutte le meccaniche base del gioco, se dovessi avere delle segnalazioni o dei suggerimenti puoi scrivermi su discord al profilo Amnuve.",
+    "helpLink": "Puoi acquistare i materiali ufficiali qui",
     "start": "START"
   },
   "difficulty": {
@@ -27,7 +27,7 @@
   },
   "setup": {
     "step": "1. Setup",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse dictum condimentum lorem, et mattis lorem aut.",
+    "description": "Scegli il numero di tratti da mettere in gioco, la difficoltà della prova, il numero di token da estrarre ed eventualmente impostare lo status confuso (non gestire direttamente l'adrenalina e la pericolosità è una scelta voluta. Adrenalina: 4 estrazioni, Pericolosità: dipende dal master e non influenza l'estrazione).",
     "difficolta": "Difficoltà",
     "selectPlaceholder": "Seleziona",
     "trattiInGioco": "Tratti in gioco",
@@ -45,13 +45,13 @@
   },
   "estrazione": {
     "step": "2. Sacchetto",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse dictum condimentum lorem, et mattis lorem aut.",
+    "description": "Estrai i tuoi token e scopri il risultato! Se non ti soddisfa puoi rischiare per provare a raggiungere il tuo obiettivo!",
     "rimasti": "Rimasti",
     "bianchi": "Bianchi",
     "neri": "Neri",
     "pescati": "Pescati",
     "di": "di",
-    "successi": "Successi",
+    "successi": "Bianchi",
     "pesca": "PESCA",
     "rischia": "Rischia",
     "reimposta": "Reimposta",
@@ -85,7 +85,11 @@
     }
   ],
   "autori": {
-    "title": "Autori"
+    "title": "Autori",
+    "roles": {
+      "nicola": "Idea, Sviluppo",
+      "lorenzo": "Design"
+    }
   },
   "footer": {
     "autori": "Autori",

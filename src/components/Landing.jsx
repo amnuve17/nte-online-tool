@@ -2,9 +2,10 @@ import Footer from "./Footer.jsx";
 import HexButton from "./HexButton.jsx";
 import HexField from "./HexField.jsx";
 import { HERO_GRADIENT } from "../lib/theme.js";
-import t from "../i18n/index.js";
+import { useTranslations } from "../i18n/LanguageContext.jsx";
 
 export default function Landing({ onStart, onNavigate }) {
+  const { t } = useTranslations();
   return (
     <div className="min-h-screen w-full" style={{ backgroundImage: HERO_GRADIENT }}>
       <div className="relative mx-auto min-h-screen w-full max-w-120 overflow-hidden text-white">
@@ -26,12 +27,15 @@ export default function Landing({ onStart, onNavigate }) {
               {t.landing.description}
             </p>
 
-            <button
-              type="button"
+            <a
+              href="https://www.msedizioni.it/prodotto/not-the-end/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="font-brand-serif mx-auto mt-2 text-xs italic text-brand-gold-light/80 underline decoration-dotted underline-offset-2"
             >
-              <span aria-hidden="true">ⓘ</span> {t.landing.helpLink}
-            </button>
+              <span aria-hidden="true" className="not-italic">ⓘ</span>{" "}
+              {t.landing.helpLink}
+            </a>
 
             <div className="mt-16 flex justify-center">
               <HexButton label={t.landing.start} onClick={onStart} />

@@ -1,9 +1,10 @@
-import t from "../i18n/index.js";
+import { useTranslations } from "../i18n/LanguageContext.jsx";
 
 const FUMBLEGDR_URL = "https://www.fumblegdr.it/";
 const MS_EDIZIONI_URL = "https://www.msedizioni.it/";
 
 export default function Footer({ onNavigate }) {
+  const { t } = useTranslations();
   return (
     <footer className="font-brand-serif relative z-10 border-t border-white/10 px-6 py-6 text-center text-xs text-zinc-400">
       <button

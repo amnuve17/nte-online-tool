@@ -1,18 +1,14 @@
-import { DIFFICULTY } from "../hooks/useTokenBag.js";
-import t from "../i18n/index.js";
+import { useTranslations } from "../i18n/LanguageContext.jsx";
 import Header from "./Header.jsx";
 import HexButton from "./HexButton.jsx";
 import PageShell from "./PageShell.jsx";
 import Select from "./Select.jsx";
 import Stepper from "./Stepper.jsx";
 
-const DIFFICULTY_OPTIONS = DIFFICULTY.map((d) => ({
-  value: d.id,
-  label: `${d.label} (${d.blacks} ${t.difficulty.neriSuffix})`,
-}));
-
 export default function SetupScreen({ bag, onMenuClick, onEstrai, onNavigate }) {
+  const { t } = useTranslations();
   const {
+    difficultyOptions,
     traitsInPlay,
     setTraitsInPlay,
     difficultyId,
@@ -28,6 +24,11 @@ export default function SetupScreen({ bag, onMenuClick, onEstrai, onNavigate }) 
     newTest,
     resetAll,
   } = bag;
+
+  const selectOptions = difficultyOptions.map((d) => ({
+    value: d.id,
+    label: `${d.label} (${d.blacks} ${t.difficulty.neriSuffix})`,
+  }));
 
   function handleEstrai() {
     newTest();
@@ -52,7 +53,7 @@ export default function SetupScreen({ bag, onMenuClick, onEstrai, onNavigate }) 
           <Select
             value={difficultyId}
             onChange={setDifficultyId}
-            options={DIFFICULTY_OPTIONS}
+            options={selectOptions}
             placeholder={t.setup.selectPlaceholder}
           />
         </div>

@@ -1,0 +1,101 @@
+{
+  "common": {
+    "brand": "Not the End",
+    "closeMenu": "Close menu",
+    "openMenu": "Open menu"
+  },
+  "nav": {
+    "start": "Start",
+    "setup": "Setup",
+    "estrazione": "Draw",
+    "autori": "Authors"
+  },
+  "landing": {
+    "subtitle": "Token Bag",
+    "description": "Press start, then set up your bag and draw your results. All the game's base mechanics are currently covered — if you have any bug reports or suggestions, message me on Discord at Amnuve.",
+    "helpLink": "You can buy the official materials here",
+    "start": "START"
+  },
+  "difficulty": {
+    "facilissima": "Very Easy",
+    "facile": "Easy",
+    "normale": "Normal",
+    "difficile": "Hard",
+    "difficilissima": "Very Hard",
+    "quasi_impossibile": "Nearly Impossible",
+    "neriSuffix": "black"
+  },
+  "setup": {
+    "step": "1. Setup",
+    "description": "Choose the number of traits in play, the difficulty of the test, how many tokens to draw, and optionally set the confused status (Adrenaline and Danger are intentionally not handled directly here. Adrenaline: 4 draws, Danger: depends on the game master and doesn't affect the draw).",
+    "difficolta": "Difficulty",
+    "selectPlaceholder": "Select",
+    "trattiInGioco": "Traits in play",
+    "trattiHint": "Normal: +1 white per trait. Confusion: 1 random token per trait.",
+    "overrideNeri": "Black override (optional)",
+    "overrideHint": "0: No override",
+    "maxPescate": "Base max draws",
+    "maxPescateHint": "From 1 to 4 draws",
+    "confusione": "Confusion (optional)",
+    "confusioneLabel": "Next test uses random tokens",
+    "tratti": "Traits",
+    "neri": "Black",
+    "estrai": "DRAW",
+    "reset": "Reset"
+  },
+  "estrazione": {
+    "step": "2. Bag",
+    "description": "Draw your tokens and see the result! If you're not satisfied, you can risk it to try to reach your goal!",
+    "rimasti": "Remaining",
+    "bianchi": "White",
+    "neri": "Black",
+    "pescati": "Drawn",
+    "di": "of",
+    "successi": "White",
+    "pesca": "DRAW",
+    "rischia": "Risk",
+    "reimposta": "Reset",
+    "rischiaWarning": "If you risk it, you give the narrator all the black tokens drawn. Only risk it if it's truly important!",
+    "infoPrefix": "For each black token",
+    "scegliConseguenza": "choose a consequence",
+    "vediConseguenze": "View consequences",
+    "nascondiConseguenze": "Hide consequences",
+    "tornaSetup": "Back to game setup"
+  },
+  "tokens": {
+    "bianco": "W",
+    "nero": "B"
+  },
+  "consequences": [
+    {
+      "title": "Complication (affects the whole scene)",
+      "body": "The Narrator complicates the scene: worsens the situation or raises narrative pressure."
+    },
+    {
+      "title": "Misfortune (to a single hero)",
+      "body": "You gain a misfortune: it remains until resolved; when it comes into play, it adds black tokens to the bag."
+    },
+    {
+      "title": "Adrenaline",
+      "body": "Put 1 black token on Adrenaline: in the next test you're forced to draw 4 tokens, then it's removed."
+    },
+    {
+      "title": "Confusion",
+      "body": "Put 1 black token on Confusion: in the next test, traits don't grant guaranteed white tokens but random ones instead, then it's removed."
+    }
+  ],
+  "autori": {
+    "title": "Authors",
+    "roles": {
+      "nicola": "Idea, Development",
+      "lorenzo": "Design"
+    }
+  },
+  "footer": {
+    "autori": "Authors",
+    "line1": "This tool was developed as a hobby project and not for profit.",
+    "belongsTo": "Not The End belongs to",
+    "and": "and",
+    "rightsReserved": "All rights reserved."
+  }
+}

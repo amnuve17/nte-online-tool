@@ -1,8 +1,9 @@
-import t from "../i18n/index.js";
+import { useTranslations } from "../i18n/LanguageContext.jsx";
 
 const HEX_POINTS = "50,2 150,2 198,86.5 150,171 50,171 2,86.5";
 
 export default function DrawSlot({ state }) {
+  const { t } = useTranslations();
   const isSuccess = state === "success";
   const isComplication = state === "complication";
 

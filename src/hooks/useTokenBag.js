@@ -1,14 +1,16 @@
 import { useMemo, useState } from "react";
-import t from "../i18n/index.js";
+import { useTranslations } from "../i18n/LanguageContext.jsx";
 
-export const DIFFICULTY = [
-  { id: "facilissima", label: t.difficulty.facilissima, blacks: 1 },
-  { id: "facile", label: t.difficulty.facile, blacks: 2 },
-  { id: "normale", label: t.difficulty.normale, blacks: 3 },
-  { id: "difficile", label: t.difficulty.difficile, blacks: 4 },
-  { id: "difficilissima", label: t.difficulty.difficilissima, blacks: 5 },
-  { id: "quasi_impossibile", label: t.difficulty.quasi_impossibile, blacks: 6 },
-];
+function buildDifficulty(t) {
+  return [
+    { id: "facilissima", label: t.difficulty.facilissima, blacks: 1 },
+    { id: "facile", label: t.difficulty.facile, blacks: 2 },
+    { id: "normale", label: t.difficulty.normale, blacks: 3 },
+    { id: "difficile", label: t.difficulty.difficile, blacks: 4 },
+    { id: "difficilissima", label: t.difficulty.difficilissima, blacks: 5 },
+    { id: "quasi_impossibile", label: t.difficulty.quasi_impossibile, blacks: 6 },
+  ];
+}
 
 function randInt(maxExclusive) {
   if (maxExclusive <= 0) return 0;
@@ -44,6 +46,8 @@ function randomTraitTokens(nTraits) {
 }
 
 export default function useTokenBag() {
+  const { t } = useTranslations();
+
   // --- input “regolamento” ---
   const [traitsInPlay, setTraitsInPlay] = useState(3);
   const [difficultyId, setDifficultyId] = useState("");
@@ -64,9 +68,13 @@ export default function useTokenBag() {
   const [bagB, setBagB] = useState(3);
   const [drawn, setDrawn] = useState([]); // ["W","B",...]
 
+  const difficultyOptions = useMemo(() => buildDifficulty(t), [t]);
+
   const difficulty = useMemo(
-    () => DIFFICULTY.find((d) => d.id === difficultyId) || DIFFICULTY[2],
-    [difficultyId]
+    () =>
+      difficultyOptions.find((d) => d.id === difficultyId) ||
+      difficultyOptions[2],
+    [difficultyOptions, difficultyId]
   );
 
   const inputBlacks =
@@ -108,11 +116,11 @@ export default function useTokenBag() {
 
   function draw() {
     if (!canDrawMore) return;
-    const t = drawOneFromCounts(bagW, bagB);
-    if (!t) return;
+    const token = drawOneFromCounts(bagW, bagB);
+    if (!token) return;
 
-    setDrawn((prev) => [...prev, t]);
-    if (t === "W") setBagW((x) => x - 1);
+    setDrawn((prev) => [...prev, token]);
+    if (token === "W") setBagW((x) => x - 1);
     else setBagB((x) => x - 1);
   }
 
@@ -157,6 +165,7 @@ export default function useTokenBag() {
     totalInBag > 0;
 
   return {
+    difficultyOptions,
     traitsInPlay,
     setTraitsInPlay,
     difficultyId,

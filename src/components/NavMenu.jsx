@@ -1,14 +1,21 @@
-import t from "../i18n/index.js";
+import { useTranslations } from "../i18n/LanguageContext.jsx";
 
-const LINKS = [
-  { id: "landing", label: t.nav.start },
-  { id: "setup", label: t.nav.setup },
-  { id: "estrazione", label: t.nav.estrazione },
-  { id: "autori", label: t.nav.autori },
+const LANGUAGES = [
+  { code: "it", label: "IT" },
+  { code: "en", label: "EN" },
 ];
 
 export default function NavMenu({ open, current, onNavigate, onClose }) {
+  const { t, language, setLanguage } = useTranslations();
+
   if (!open) return null;
+
+  const links = [
+    { id: "landing", label: t.nav.start },
+    { id: "setup", label: t.nav.setup },
+    { id: "estrazione", label: t.nav.estrazione },
+    { id: "autori", label: t.nav.autori },
+  ];
 
   return (
     <div className="fixed inset-0 z-50">
@@ -27,7 +34,7 @@ export default function NavMenu({ open, current, onNavigate, onClose }) {
         >
           ×
         </button>
-        {LINKS.map((link) => (
+        {links.map((link) => (
           <button
             key={link.id}
             type="button"
@@ -42,6 +49,24 @@ export default function NavMenu({ open, current, onNavigate, onClose }) {
             {link.label}
           </button>
         ))}
+
+        <div className="mt-auto flex items-center gap-2 border-t border-zinc-800 pt-6">
+          {LANGUAGES.map((l) => (
+            <button
+              key={l.code}
+              type="button"
+              onClick={() => setLanguage(l.code)}
+              className={
+                "font-display rounded-lg border px-3 py-1.5 text-sm tracking-wide transition-colors " +
+                (language === l.code
+                  ? "border-brand-gold text-brand-gold"
+                  : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white")
+              }
+            >
+              {l.label}
+            </button>
+          ))}
+        </div>
       </nav>
     </div>
   );

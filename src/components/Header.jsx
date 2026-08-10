@@ -1,4 +1,4 @@
-import t from "../i18n/index.js";
+import { useTranslations } from "../i18n/LanguageContext.jsx";
 
 function MenuIcon() {
   return (
@@ -15,6 +15,7 @@ export default function Header({
   onMenuClick,
   onNavigate,
 }) {
+  const { t } = useTranslations();
   const bar = (
     <div className="flex items-center justify-between px-6 pt-6">
       <button

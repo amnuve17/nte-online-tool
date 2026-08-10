@@ -1,13 +1,12 @@
 import { useState } from "react";
-import t from "../i18n/index.js";
+import { useTranslations } from "../i18n/LanguageContext.jsx";
 import DrawRecap from "./DrawRecap.jsx";
 import Header from "./Header.jsx";
 import HexButton from "./HexButton.jsx";
 import PageShell from "./PageShell.jsx";
 
-const CONSEQUENCES = t.consequences;
-
 export default function EstrazioneScreen({ bag, onMenuClick, onNavigate }) {
+  const { t } = useTranslations();
   const [showConsequences, setShowConsequences] = useState(false);
   const {
     bagW,
@@ -118,7 +117,7 @@ export default function EstrazioneScreen({ bag, onMenuClick, onNavigate }) {
 
                 {showConsequences && (
                   <div className="space-y-2">
-                    {CONSEQUENCES.map((c) => (
+                    {t.consequences.map((c) => (
                       <details
                         key={c.title}
                         className="rounded-xl border border-zinc-700 bg-zinc-900/60 p-3"
