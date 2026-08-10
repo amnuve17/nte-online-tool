@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brand-gold: #d9a256;
+  --color-brand-gold-light: #f0c483;
+  --color-brand-red: #8a1116;
+  --color-brand-red-dark: #1a0203;
+  --color-brand-rose: #b98089;
+  --color-brand-maroon: #2a1114;
+  --font-display: "New Amsterdam", sans-serif;
+  --font-brand-serif: "Roboto Serif", serif;
+}
+
 button,
 [type="button"],
 [type="submit"],

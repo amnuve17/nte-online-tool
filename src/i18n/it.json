@@ -1,0 +1,97 @@
+{
+  "common": {
+    "brand": "Not the End",
+    "closeMenu": "Chiudi menu",
+    "openMenu": "Apri menu"
+  },
+  "nav": {
+    "start": "Start",
+    "setup": "Setup",
+    "estrazione": "Estrazione",
+    "autori": "Autori"
+  },
+  "landing": {
+    "subtitle": "Token Bag",
+    "description": "Inizializza la partita e poi fai bla bla bla in poche parole.",
+    "helpLink": "Non sai giocare? Ti aiutiamo noi.",
+    "start": "START"
+  },
+  "difficulty": {
+    "facilissima": "Facilissima",
+    "facile": "Facile",
+    "normale": "Normale",
+    "difficile": "Difficile",
+    "difficilissima": "Difficilissima",
+    "quasi_impossibile": "Quasi impossibile",
+    "neriSuffix": "neri"
+  },
+  "setup": {
+    "step": "1. Setup",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse dictum condimentum lorem, et mattis lorem aut.",
+    "difficolta": "Difficoltà",
+    "selectPlaceholder": "Seleziona",
+    "trattiInGioco": "Tratti in gioco",
+    "trattiHint": "Normale: +1 bianco per tratto. Confusione: 1 token casuale per tratto.",
+    "overrideNeri": "Override neri (opzionale)",
+    "overrideHint": "0: Nessun override",
+    "maxPescate": "Massimo di pescate base",
+    "maxPescateHint": "Da 1 a 4 pescate",
+    "confusione": "Confusione (opzionale)",
+    "confusioneLabel": "Nella prossima prova token casuali",
+    "tratti": "Tratti",
+    "neri": "Neri",
+    "estrai": "ESTRAI",
+    "reset": "Reset"
+  },
+  "estrazione": {
+    "step": "2. Sacchetto",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse dictum condimentum lorem, et mattis lorem aut.",
+    "rimasti": "Rimasti",
+    "bianchi": "Bianchi",
+    "neri": "Neri",
+    "pescati": "Pescati",
+    "di": "di",
+    "successi": "Successi",
+    "pesca": "PESCA",
+    "rischia": "Rischia",
+    "reimposta": "Reimposta",
+    "rischiaWarning": "Se rischi regali al narratore tutti i token neri estratti. Rischia solo se è davvero importante!",
+    "infoPrefix": "Per ogni token nero",
+    "scegliConseguenza": "scegli una conseguenza",
+    "vediConseguenze": "Vedi conseguenze",
+    "nascondiConseguenze": "Nascondi conseguenze",
+    "tornaSetup": "Torna al setup della partita"
+  },
+  "tokens": {
+    "bianco": "B",
+    "nero": "N"
+  },
+  "consequences": [
+    {
+      "title": "Complicazione (a tutta la scena)",
+      "body": "Il Narratore complica la scena: peggiora la situazione o alza la pressione narrativa."
+    },
+    {
+      "title": "Sventura (al singolo eroe)",
+      "body": "Ottieni una sventura: resta finché non viene risolta; quando entra in gioco, aggiunge neri al sacchetto."
+    },
+    {
+      "title": "Adrenalina",
+      "body": "Metti 1 nero su Adrenalina: nella prossima prova sei obbligato a estrarre 4 token, poi si rimuove."
+    },
+    {
+      "title": "Confusione",
+      "body": "Metti 1 nero su Confusione: nella prossima prova i tratti non danno bianchi garantiti ma token casuali, poi si rimuove."
+    }
+  ],
+  "autori": {
+    "title": "Autori"
+  },
+  "footer": {
+    "autori": "Autori",
+    "line1": "Questo tool è stato sviluppato amatorialmente e non a scopo di lucro.",
+    "belongsTo": "Not The End appartiene a",
+    "and": "e",
+    "rightsReserved": "Tutti i diritti riservati."
+  }
+}
