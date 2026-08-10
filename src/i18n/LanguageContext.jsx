@@ -10,7 +10,7 @@ function detectDefaultLanguage() {
   if (stored && TRANSLATIONS[stored]) return stored;
 
   const browserLang = (navigator.language || "it").slice(0, 2).toLowerCase();
-  return TRANSLATIONS[browserLang] ? browserLang : "it";
+  return browserLang === "it" ? "it" : "en";
 }
 
 const LanguageContext = createContext(null);
