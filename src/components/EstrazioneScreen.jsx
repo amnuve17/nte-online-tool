@@ -78,14 +78,14 @@ export default function EstrazioneScreen({ bag, onMenuClick, onNavigate }) {
                 type="button"
                 onClick={risk}
                 disabled={!canRisk}
-                className="border border-brand-rose/40 bg-brand-rose/15 py-3 text-sm font-bold uppercase tracking-wide hover:bg-brand-rose/25 disabled:opacity-40"
+                className="border border-brand-rose/40 bg-brand-rose/15 py-3 text-sm font-bold uppercase tracking-wide transition-all hover:bg-brand-rose/25 active:scale-[0.97] disabled:opacity-40 disabled:active:scale-100"
               >
                 {t.estrazione.rischia}
               </button>
               <button
                 type="button"
                 onClick={resetTest}
-                className="border border-brand-rose/40 bg-brand-rose/15 py-3 text-sm font-bold uppercase tracking-wide hover:bg-brand-rose/25"
+                className="border border-brand-rose/40 bg-brand-rose/15 py-3 text-sm font-bold uppercase tracking-wide transition-all hover:bg-brand-rose/25 active:scale-[0.97]"
               >
                 {t.estrazione.reimposta}
               </button>
@@ -108,7 +108,7 @@ export default function EstrazioneScreen({ bag, onMenuClick, onNavigate }) {
                 <button
                   type="button"
                   onClick={() => setShowConsequences((v) => !v)}
-                  className="w-full border border-zinc-600 py-3 text-sm font-bold uppercase tracking-wide hover:border-white"
+                  className="w-full border border-zinc-600 py-3 text-sm font-bold uppercase tracking-wide transition-all hover:border-white active:scale-[0.98]"
                 >
                   {showConsequences
                     ? t.estrazione.nascondiConseguenze
@@ -138,7 +138,7 @@ export default function EstrazioneScreen({ bag, onMenuClick, onNavigate }) {
             <button
               type="button"
               onClick={() => onNavigate("setup")}
-              className="mx-auto block text-xs font-bold uppercase tracking-[0.3em] text-zinc-400 underline decoration-dotted hover:text-white"
+              className="mx-auto block text-xs font-bold uppercase tracking-[0.3em] text-zinc-400 underline decoration-dotted transition-transform hover:text-white active:scale-95"
             >
               {t.estrazione.tornaSetup}
             </button>

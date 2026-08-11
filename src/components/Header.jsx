@@ -21,14 +21,14 @@ export default function Header({
       <button
         type="button"
         onClick={() => onNavigate?.("landing")}
-        className="font-display text-3xl uppercase tracking-tight"
+        className="font-display text-3xl uppercase tracking-tight transition-transform active:scale-95"
       >
         {t.common.brand}
       </button>
       <button
         type="button"
         aria-label={t.common.openMenu}
-        className="p-2"
+        className="p-2 transition-transform active:scale-90"
         onClick={onMenuClick}
       >
         <MenuIcon />

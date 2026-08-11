@@ -8,7 +8,14 @@ export default function DrawSlot({ state }) {
   const isComplication = state === "complication";
 
   return (
-    <div className="relative h-16 w-16 shrink-0">
+    <div
+      className={
+        "relative h-16 w-16 shrink-0" +
+        (isSuccess || isComplication
+          ? " animate-[token-reveal_450ms_ease-out]"
+          : "")
+      }
+    >
       <svg viewBox="0 0 200 173" className="absolute inset-0 h-full w-full">
         <polygon
           points={HEX_POINTS}

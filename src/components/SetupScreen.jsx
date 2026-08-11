@@ -137,7 +137,7 @@ export default function SetupScreen({ bag, onMenuClick, onEstrai, onNavigate }) 
         <button
           type="button"
           onClick={resetAll}
-          className="mx-auto block text-xs font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white"
+          className="mx-auto block text-xs font-bold uppercase tracking-[0.3em] text-zinc-400 transition-transform hover:text-white active:scale-95"
         >
           {t.setup.reset}
         </button>

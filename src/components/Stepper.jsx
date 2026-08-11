@@ -13,7 +13,7 @@ export default function Stepper({ value, min, max, onChange, disabled = false })
           disabled={disabled || value >= max}
           onClick={() => onChange(Math.min(max, value + 1))}
           aria-label="Aumenta"
-          className="flex h-6 w-9 items-center justify-center rounded text-base font-bold text-brand-gold hover:text-brand-gold-light disabled:opacity-30"
+          className="flex h-6 w-9 items-center justify-center rounded text-base font-bold text-brand-gold transition-transform hover:text-brand-gold-light active:scale-90 disabled:opacity-30 disabled:active:scale-100"
         >
           +
         </button>
@@ -22,7 +22,7 @@ export default function Stepper({ value, min, max, onChange, disabled = false })
           disabled={disabled || value <= min}
           onClick={() => onChange(Math.max(min, value - 1))}
           aria-label="Diminuisci"
-          className="flex h-6 w-9 items-center justify-center rounded text-base font-bold text-brand-gold hover:text-brand-gold-light disabled:opacity-30"
+          className="flex h-6 w-9 items-center justify-center rounded text-base font-bold text-brand-gold transition-transform hover:text-brand-gold-light active:scale-90 disabled:opacity-30 disabled:active:scale-100"
         >
           −
         </button>

@@ -67,7 +67,7 @@ export default function AuthorCard({ name, role, image, socials = [] }) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={s.type}
-              className="text-zinc-300 transition-colors hover:text-brand-gold"
+              className="text-zinc-300 transition-all hover:text-brand-gold active:scale-90"
             >
               <Icon />
             </a>

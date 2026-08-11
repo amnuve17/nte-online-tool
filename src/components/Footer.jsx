@@ -10,7 +10,7 @@ export default function Footer({ onNavigate }) {
       <button
         type="button"
         onClick={() => onNavigate?.("autori")}
-        className="text-sm text-zinc-300 underline hover:text-white"
+        className="inline-block text-sm text-zinc-300 underline transition-transform hover:text-white active:scale-95"
       >
         {t.footer.autori}
       </button>
@@ -21,7 +21,7 @@ export default function Footer({ onNavigate }) {
           href={FUMBLEGDR_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-zinc-300 underline hover:text-white"
+          className="inline-block text-zinc-300 underline transition-transform hover:text-white active:scale-95"
         >
           FumbleGDR
         </a>{" "}
@@ -30,7 +30,7 @@ export default function Footer({ onNavigate }) {
           href={MS_EDIZIONI_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-zinc-300 underline hover:text-white"
+          className="inline-block text-zinc-300 underline transition-transform hover:text-white active:scale-95"
         >
           MS Edizioni
         </a>

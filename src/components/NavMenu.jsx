@@ -30,7 +30,7 @@ export default function NavMenu({ open, current, onNavigate, onClose }) {
           type="button"
           aria-label={t.common.closeMenu}
           onClick={onClose}
-          className="mb-6 self-end p-2 text-2xl leading-none text-zinc-400 hover:text-white"
+          className="mb-6 self-end p-2 text-2xl leading-none text-zinc-400 transition-transform hover:text-white active:scale-90"
         >
           ×
         </button>
@@ -40,7 +40,7 @@ export default function NavMenu({ open, current, onNavigate, onClose }) {
             type="button"
             onClick={() => onNavigate(link.id)}
             className={
-              "font-display rounded-xl px-3 py-3 text-left text-xl uppercase tracking-wide transition-colors " +
+              "font-display rounded-xl px-3 py-3 text-left text-xl uppercase tracking-wide transition-all active:scale-[0.97] " +
               (current === link.id
                 ? "text-brand-gold"
                 : "text-white hover:text-brand-gold-light")
@@ -57,7 +57,7 @@ export default function NavMenu({ open, current, onNavigate, onClose }) {
               type="button"
               onClick={() => setLanguage(l.code)}
               className={
-                "font-display rounded-lg border px-3 py-1.5 text-sm tracking-wide transition-colors " +
+                "font-display rounded-lg border px-3 py-1.5 text-sm tracking-wide transition-all active:scale-95 " +
                 (language === l.code
                   ? "border-brand-gold text-brand-gold"
                   : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white")

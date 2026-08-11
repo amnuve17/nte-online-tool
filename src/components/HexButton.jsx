@@ -4,7 +4,7 @@ export default function HexButton({ label, onClick, disabled = false, className 
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`group relative flex h-44 w-52 items-center justify-center ${className}`}
+      className={`group relative flex h-44 w-52 items-center justify-center transition-transform active:scale-95 ${className}`}
     >
       <svg viewBox="0 0 200 173" className="absolute inset-0 h-full w-full">
         <polygon

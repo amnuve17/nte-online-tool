@@ -19,7 +19,7 @@ export default function Select({ value, onChange, options, placeholder }) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex h-16 w-full items-center justify-between border border-zinc-700/60 bg-zinc-900/80 px-4 text-left text-lg font-semibold outline-none focus:border-brand-gold"
+        className="flex h-16 w-full items-center justify-between border border-zinc-700/60 bg-zinc-900/80 px-4 text-left text-lg font-semibold outline-none transition-transform active:scale-[0.98] focus:border-brand-gold"
       >
         <span className={selected ? "text-white" : "text-zinc-500"}>
           {selected ? selected.label : placeholder}
@@ -42,7 +42,7 @@ export default function Select({ value, onChange, options, placeholder }) {
                   setOpen(false);
                 }}
                 className={
-                  "block w-full px-4 py-3 text-left text-sm transition-colors " +
+                  "block w-full px-4 py-3 text-left text-sm transition-all active:scale-[0.98] " +
                   (o.value === value
                     ? "bg-brand-gold/15 text-brand-gold"
                     : "text-zinc-200 hover:bg-zinc-800")
