@@ -56,10 +56,10 @@
     "rischia": "Risk",
     "reimposta": "Reset",
     "rischiaWarning": "If you risk it, you give the narrator all the black tokens drawn. Only risk it if it's truly important!",
-    "infoPrefix": "For each black token",
-    "scegliConseguenza": "choose a consequence",
-    "vediConseguenze": "View consequences",
-    "nascondiConseguenze": "Hide consequences",
+    "infoPrefix": "Choose how to spend",
+    "scegliConseguenza": "each black token drawn",
+    "vediConseguenze": "How to spend black tokens",
+    "nascondiConseguenze": "Hide how to spend black tokens",
     "tornaSetup": "Back to game setup"
   },
   "tokens": {

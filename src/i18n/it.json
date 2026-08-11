@@ -56,10 +56,10 @@
     "rischia": "Rischia",
     "reimposta": "Reimposta",
     "rischiaWarning": "Se rischi regali al narratore tutti i token neri estratti. Rischia solo se è davvero importante!",
-    "infoPrefix": "Per ogni token nero",
-    "scegliConseguenza": "scegli una conseguenza",
-    "vediConseguenze": "Vedi conseguenze",
-    "nascondiConseguenze": "Nascondi conseguenze",
+    "infoPrefix": "Scegli come spendere",
+    "scegliConseguenza": "ogni token nero estratto",
+    "vediConseguenze": "Come spendere i token neri",
+    "nascondiConseguenze": "Nascondi come spendere i token neri",
     "tornaSetup": "Torna al setup della partita"
   },
   "tokens": {
