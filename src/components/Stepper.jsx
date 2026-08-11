@@ -7,13 +7,13 @@ export default function Stepper({ value, min, max, onChange, disabled = false })
       }
     >
       <span className="text-2xl font-bold tabular-nums">{value}</span>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-0.5">
         <button
           type="button"
           disabled={disabled || value >= max}
           onClick={() => onChange(Math.min(max, value + 1))}
           aria-label="Aumenta"
-          className="flex h-5 w-6 items-center justify-center rounded text-brand-gold hover:text-brand-gold-light disabled:opacity-30"
+          className="flex h-6 w-9 items-center justify-center rounded text-base font-bold text-brand-gold hover:text-brand-gold-light disabled:opacity-30"
         >
           +
         </button>
@@ -22,7 +22,7 @@ export default function Stepper({ value, min, max, onChange, disabled = false })
           disabled={disabled || value <= min}
           onClick={() => onChange(Math.max(min, value - 1))}
           aria-label="Diminuisci"
-          className="flex h-5 w-6 items-center justify-center rounded text-brand-gold hover:text-brand-gold-light disabled:opacity-30"
+          className="flex h-6 w-9 items-center justify-center rounded text-base font-bold text-brand-gold hover:text-brand-gold-light disabled:opacity-30"
         >
           −
         </button>

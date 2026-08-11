@@ -78,14 +78,14 @@ export default function EstrazioneScreen({ bag, onMenuClick, onNavigate }) {
                 type="button"
                 onClick={risk}
                 disabled={!canRisk}
-                className="rounded-2xl border border-brand-rose/40 bg-brand-rose/15 py-3 text-sm font-bold uppercase tracking-wide hover:bg-brand-rose/25 disabled:opacity-40"
+                className="border border-brand-rose/40 bg-brand-rose/15 py-3 text-sm font-bold uppercase tracking-wide hover:bg-brand-rose/25 disabled:opacity-40"
               >
                 {t.estrazione.rischia}
               </button>
               <button
                 type="button"
                 onClick={resetTest}
-                className="rounded-2xl border border-brand-rose/40 bg-brand-rose/15 py-3 text-sm font-bold uppercase tracking-wide hover:bg-brand-rose/25"
+                className="border border-brand-rose/40 bg-brand-rose/15 py-3 text-sm font-bold uppercase tracking-wide hover:bg-brand-rose/25"
               >
                 {t.estrazione.reimposta}
               </button>
@@ -108,7 +108,7 @@ export default function EstrazioneScreen({ bag, onMenuClick, onNavigate }) {
                 <button
                   type="button"
                   onClick={() => setShowConsequences((v) => !v)}
-                  className="w-full rounded-2xl border border-zinc-600 py-3 text-sm font-bold uppercase tracking-wide hover:border-white"
+                  className="w-full border border-zinc-600 py-3 text-sm font-bold uppercase tracking-wide hover:border-white"
                 >
                   {showConsequences
                     ? t.estrazione.nascondiConseguenze
@@ -120,7 +120,7 @@ export default function EstrazioneScreen({ bag, onMenuClick, onNavigate }) {
                     {t.consequences.map((c) => (
                       <details
                         key={c.title}
-                        className="rounded-xl border border-zinc-700 bg-zinc-900/60 p-3"
+                        className="border border-zinc-700 bg-zinc-900/60 p-3"
                       >
                         <summary className="cursor-pointer font-semibold select-none">
                           {c.title}
