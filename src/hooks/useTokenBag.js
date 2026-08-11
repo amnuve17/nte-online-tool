@@ -56,14 +56,14 @@ export default function useTokenBag() {
   // --- opzioni prova ---
   const [maxDraw, setMaxDraw] = useState(4); // limite base 1–4
 
-  // Rischio: si decide DOPO le pescate base, e porta a 5 totali
+  // Rischio: si decide DOPO le estrazioni base, e porta a 5 totali
   const [riskActive, setRiskActive] = useState(false);
 
   // Confusione: vale per la PROSSIMA prova; poi si consuma
   const [confusionNext, setConfusionNext] = useState(false);
   const [confusionThisTest, setConfusionThisTest] = useState(false);
 
-  // --- stato prova corrente (sacchetto e pescate) ---
+  // --- stato prova corrente (sacchetto ed estrazioni) ---
   const [bagW, setBagW] = useState(3);
   const [bagB, setBagB] = useState(3);
   const [drawn, setDrawn] = useState([]); // ["W","B",...]
@@ -125,7 +125,7 @@ export default function useTokenBag() {
   }
 
   function risk() {
-    // puoi rischiare solo dopo aver completato le pescate base
+    // puoi rischiare solo dopo aver completato le estrazioni base
     if (riskActive) return;
     if (drawn.length !== baseMaxDraw) return;
     if (totalInBag <= 0) return;

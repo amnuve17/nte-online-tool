@@ -65,7 +65,7 @@ export default function EstrazioneScreen({ bag, onMenuClick, onNavigate }) {
 
         <div className="flex justify-center pt-2">
           <HexButton
-            label={t.estrazione.pesca}
+            label={t.estrazione.estrai}
             disabled={!canDrawMore}
             onClick={draw}
           />

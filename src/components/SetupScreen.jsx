@@ -90,11 +90,11 @@ export default function SetupScreen({ bag, onMenuClick, onEstrai, onNavigate }) 
 
         <div className="space-y-2">
           <div className="text-sm font-bold uppercase tracking-wide">
-            {t.setup.maxPescate}
+            {t.setup.maxEstrazioni}
           </div>
           <Stepper value={maxDraw} min={1} max={4} onChange={setMaxDraw} />
           <div className="font-brand-serif text-xs italic text-brand-rose/90">
-            {t.setup.maxPescateHint}
+            {t.setup.maxEstrazioniHint}
           </div>
         </div>
 

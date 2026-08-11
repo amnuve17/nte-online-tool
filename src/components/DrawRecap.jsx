@@ -21,7 +21,7 @@ export default function DrawRecap({ bag }) {
       </div>
 
       <p className="text-center text-lg font-bold uppercase tracking-wide">
-        {t.estrazione.pescati}{" "}
+        {t.estrazione.estratti}{" "}
         <span className="text-brand-rose">{drawn.length}</span>{" "}
         {t.estrazione.di} {effectiveMaxDraw}
       </p>
