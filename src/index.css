@@ -4,11 +4,111 @@
   --color-brand-gold: #d9a256;
   --color-brand-gold-light: #f0c483;
   --color-brand-red: #8a1116;
+  --color-brand-red-mid: #4a1215;
   --color-brand-red-dark: #1a0203;
   --color-brand-rose: #b98089;
   --color-brand-maroon: #2a1114;
+  --color-token-white: #ffffff;
+  --color-token-white-text: #000000;
+  --color-token-black: #ffffff;
   --font-display: "New Amsterdam", sans-serif;
   --font-brand-serif: "Roboto Serif", serif;
+}
+
+/* Temi: sovrascrivono i token colore sopra, così ogni classe che li usa
+   (bg/text/border-brand-*) si aggiorna automaticamente in base al tema attivo. */
+:root[data-theme="blu"] {
+  --color-brand-gold: #e0b571;
+  --color-brand-gold-light: #f3d9a0;
+  --color-brand-red: #14395c;
+  --color-brand-red-mid: #0f2438;
+  --color-brand-red-dark: #050d16;
+  --color-brand-rose: #7f93b9;
+  --color-brand-maroon: #17293e;
+}
+
+:root[data-theme="verde"] {
+  --color-brand-gold: #cf9c4a;
+  --color-brand-gold-light: #ecc27f;
+  --color-brand-red: #14442f;
+  --color-brand-red-mid: #0d2c1f;
+  --color-brand-red-dark: #04120c;
+  --color-brand-rose: #8fae95;
+  --color-brand-maroon: #1a3226;
+}
+
+:root[data-theme="viola"] {
+  --color-brand-gold: #dba766;
+  --color-brand-gold-light: #f0c483;
+  --color-brand-red: #3a1955;
+  --color-brand-red-mid: #240f37;
+  --color-brand-red-dark: #0d0616;
+  --color-brand-rose: #b98fc0;
+  --color-brand-maroon: #2a1a3a;
+}
+
+:root[data-theme="grigio"] {
+  --color-brand-gold: #c9ced6;
+  --color-brand-gold-light: #e8ecf1;
+  --color-brand-red: #33383f;
+  --color-brand-red-mid: #1c2025;
+  --color-brand-red-dark: #08090b;
+  --color-brand-rose: #8a94a3;
+  --color-brand-maroon: #23262b;
+}
+
+/* Temi "audaci": gradiente a doppia tonalità e accenti non-oro, per un salto
+   cromatico più netto rispetto ai toni gioiello classici sopra. */
+:root[data-theme="cyberpunk"] {
+  --color-brand-gold: #4dd9e8;
+  --color-brand-gold-light: #8ff0fa;
+  --color-brand-red: #4a0d3f;
+  --color-brand-red-mid: #0d2b3f;
+  --color-brand-red-dark: #050810;
+  --color-brand-rose: #e85dc2;
+  --color-brand-maroon: #1a1030;
+  --color-token-white: var(--color-brand-gold-light);
+  --color-token-white-text: var(--color-brand-red-dark);
+  --color-token-black: var(--color-brand-gold);
+}
+
+:root[data-theme="fuoco"] {
+  --color-brand-gold: #ff8a3d;
+  --color-brand-gold-light: #ffb87a;
+  --color-brand-red: #5c1a02;
+  --color-brand-red-mid: #2e0e04;
+  --color-brand-red-dark: #0d0301;
+  --color-brand-rose: #e05a3d;
+  --color-brand-maroon: #331505;
+  --color-token-white: var(--color-brand-gold-light);
+  --color-token-white-text: var(--color-brand-red-dark);
+  --color-token-black: var(--color-brand-gold);
+}
+
+:root[data-theme="tossico"] {
+  --color-brand-gold: #aef03c;
+  --color-brand-gold-light: #d4f78a;
+  --color-brand-red: #1f3d0a;
+  --color-brand-red-mid: #142605;
+  --color-brand-red-dark: #050a02;
+  --color-brand-rose: #9a5fd9;
+  --color-brand-maroon: #1c2b0f;
+  --color-token-white: var(--color-brand-gold-light);
+  --color-token-white-text: var(--color-brand-red-dark);
+  --color-token-black: var(--color-brand-gold);
+}
+
+:root[data-theme="ghiaccio"] {
+  --color-brand-gold: #bfe6ec;
+  --color-brand-gold-light: #e0f5f8;
+  --color-brand-red: #0a2f3d;
+  --color-brand-red-mid: #061c26;
+  --color-brand-red-dark: #020a0e;
+  --color-brand-rose: #e88a6f;
+  --color-brand-maroon: #0d232c;
+  --color-token-white: var(--color-brand-gold-light);
+  --color-token-white-text: var(--color-brand-red-dark);
+  --color-token-black: var(--color-brand-gold);
 }
 
 button,

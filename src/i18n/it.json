@@ -8,7 +8,8 @@
     "start": "Start",
     "setup": "Setup",
     "estrazione": "Estrazione",
-    "autori": "Autori"
+    "autori": "Autori",
+    "impostazioni": "Impostazioni"
   },
   "landing": {
     "subtitle": "Token Bag",
@@ -92,6 +93,30 @@
     "roles": {
       "nicola": "Idea, Sviluppo",
       "lorenzo": "Design"
+    }
+  },
+  "impostazioni": {
+    "title": "Impostazioni",
+    "description": "Qui trovi le impostazioni dell'app.",
+    "tokenCustomization": "Personalizza i token",
+    "tokenCustomizationHint": "Carica un'immagine per i token bianchi e neri estratti dal sacchetto. Restano salvate su questo dispositivo finché non svuoti la cache del browser.",
+    "imageRecommendation": "Consigliato: immagine quadrata con il soggetto centrato, circa 256x256px, in qualsiasi formato comune (verrà convertita e compressa automaticamente).",
+    "whiteToken": "Token bianco",
+    "blackToken": "Token nero",
+    "chooseImage": "Carica immagine",
+    "removeImage": "Rimuovi",
+    "themeTitle": "Tema",
+    "themeHint": "Scegli la palette di colori dell'app: cambia sfondo, testi e dettagli.",
+    "themes": {
+      "rosso": "Rosso cremisi",
+      "blu": "Blu notte",
+      "verde": "Verde smeraldo",
+      "viola": "Viola regale",
+      "grigio": "Grigio acciaio",
+      "cyberpunk": "Cyberpunk neon",
+      "fuoco": "Fuoco",
+      "tossico": "Tossico",
+      "ghiaccio": "Ghiaccio"
     }
   },
   "footer": {

@@ -15,6 +15,7 @@ export default function NavMenu({ open, current, onNavigate, onClose }) {
     { id: "setup", label: t.nav.setup },
     { id: "estrazione", label: t.nav.estrazione },
     { id: "autori", label: t.nav.autori },
+    { id: "impostazioni", label: t.nav.impostazioni },
   ];
 
   return (

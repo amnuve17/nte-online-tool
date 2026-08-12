@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import AutoriScreen from "./components/AutoriScreen.jsx";
 import EstrazioneScreen from "./components/EstrazioneScreen.jsx";
+import ImpostazioniScreen from "./components/ImpostazioniScreen.jsx";
 import Landing from "./components/Landing.jsx";
 import NavMenu from "./components/NavMenu.jsx";
 import SetupScreen from "./components/SetupScreen.jsx";
@@ -60,6 +61,18 @@ export default function App() {
     return (
       <>
         <AutoriScreen
+          onMenuClick={() => setMenuOpen(true)}
+          onNavigate={navigate}
+        />
+        {menu}
+      </>
+    );
+  }
+
+  if (screen === "impostazioni") {
+    return (
+      <>
+        <ImpostazioniScreen
           onMenuClick={() => setMenuOpen(true)}
           onNavigate={navigate}
         />

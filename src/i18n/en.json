@@ -8,7 +8,8 @@
     "start": "Start",
     "setup": "Setup",
     "estrazione": "Draw",
-    "autori": "Authors"
+    "autori": "Authors",
+    "impostazioni": "Settings"
   },
   "landing": {
     "subtitle": "Token Bag",
@@ -92,6 +93,30 @@
     "roles": {
       "nicola": "Idea, Development",
       "lorenzo": "Design"
+    }
+  },
+  "impostazioni": {
+    "title": "Settings",
+    "description": "Here you'll find the app settings.",
+    "tokenCustomization": "Customize tokens",
+    "tokenCustomizationHint": "Upload an image for the white and black tokens drawn from the bag. They stay saved on this device until you clear your browser cache.",
+    "imageRecommendation": "Recommended: a square image with the subject centered, around 256x256px, in any common format (it will be converted and compressed automatically).",
+    "whiteToken": "White token",
+    "blackToken": "Black token",
+    "chooseImage": "Upload image",
+    "removeImage": "Remove",
+    "themeTitle": "Theme",
+    "themeHint": "Choose the app's color palette: changes background, text and details.",
+    "themes": {
+      "rosso": "Crimson Red",
+      "blu": "Midnight Blue",
+      "verde": "Emerald Green",
+      "viola": "Royal Purple",
+      "grigio": "Steel Gray",
+      "cyberpunk": "Cyberpunk Neon",
+      "fuoco": "Ember",
+      "tossico": "Toxic",
+      "ghiaccio": "Arctic Ice"
     }
   },
   "footer": {
