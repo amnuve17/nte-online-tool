@@ -17,6 +17,8 @@ export default function SetupScreen({ bag, onMenuClick, onEstrai, onNavigate }) 
     setBlacksOverride,
     maxDraw,
     setMaxDraw,
+    adrenalineActive,
+    setAdrenalineActive,
     confusionNext,
     setConfusionNext,
     inputWhites,
@@ -92,10 +94,33 @@ export default function SetupScreen({ bag, onMenuClick, onEstrai, onNavigate }) 
           <div className="text-sm font-bold uppercase tracking-wide">
             {t.setup.maxEstrazioni}
           </div>
-          <Stepper value={maxDraw} min={1} max={4} onChange={setMaxDraw} />
+          <Stepper
+            value={adrenalineActive ? 4 : maxDraw}
+            min={1}
+            max={4}
+            onChange={setMaxDraw}
+            disabled={adrenalineActive}
+          />
           <div className="font-brand-serif text-xs italic text-brand-rose/90">
             {t.setup.maxEstrazioniHint}
           </div>
+        </div>
+
+        <div className="space-y-2">
+          <div className="text-sm font-bold uppercase tracking-wide">
+            {t.setup.adrenalina}
+          </div>
+          <label className="flex items-center gap-3 select-none">
+            <input
+              type="checkbox"
+              checked={adrenalineActive}
+              onChange={(e) => setAdrenalineActive(e.target.checked)}
+              className="h-5 w-5 shrink-0 rounded border-zinc-600 bg-zinc-900 accent-brand-gold"
+            />
+            <span className="font-brand-serif text-sm italic text-zinc-300">
+              {t.setup.adrenalinaLabel}
+            </span>
+          </label>
         </div>
 
         <div className="space-y-2">

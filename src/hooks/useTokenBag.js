@@ -55,6 +55,7 @@ export default function useTokenBag() {
 
   // --- opzioni prova ---
   const [maxDraw, setMaxDraw] = useState(4); // limite base 1–4
+  const [adrenalineActive, setAdrenalineActive] = useState(false); // fissa le estrazioni base a 4
 
   // Rischio: si decide DOPO le estrazioni base, e porta a 5 totali
   const [riskActive, setRiskActive] = useState(false);
@@ -82,7 +83,7 @@ export default function useTokenBag() {
 
   const inputWhites = clampInt(traitsInPlay, 0, 12);
 
-  const baseMaxDraw = clampInt(maxDraw, 1, 4);
+  const baseMaxDraw = adrenalineActive ? 4 : clampInt(maxDraw, 1, 4);
   const effectiveMaxDraw = riskActive ? 5 : baseMaxDraw;
 
   const totalInBag = bagW + bagB;
@@ -145,6 +146,7 @@ export default function useTokenBag() {
     setDifficultyId("");
     setBlacksOverride(0);
     setMaxDraw(4);
+    setAdrenalineActive(false);
 
     setRiskActive(false);
 
@@ -174,6 +176,8 @@ export default function useTokenBag() {
     setBlacksOverride,
     maxDraw,
     setMaxDraw,
+    adrenalineActive,
+    setAdrenalineActive,
     confusionNext,
     setConfusionNext,
     confusionThisTest,

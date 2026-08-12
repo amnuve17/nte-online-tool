@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "../i18n/LanguageContext.jsx";
 import DrawRecap from "./DrawRecap.jsx";
 import Header from "./Header.jsx";
 import HexButton from "./HexButton.jsx";
 import PageShell from "./PageShell.jsx";
 
+const FIRST_REVEAL_DELAY_MS = 80;
+const REVEAL_STEP_MS = 700;
+
 export default function EstrazioneScreen({ bag, onMenuClick, onNavigate }) {
   const { t } = useTranslations();
   const [showConsequences, setShowConsequences] = useState(false);
+  const [revealing, setRevealing] = useState(false);
+  const revealStartCountRef = useRef(0);
   const {
     bagW,
     bagB,
@@ -23,6 +28,30 @@ export default function EstrazioneScreen({ bag, onMenuClick, onNavigate }) {
   } = bag;
 
   const finished = !canDrawMore && drawn.length > 0;
+
+  function startRevealing() {
+    revealStartCountRef.current = drawn.length;
+    setRevealing(true);
+  }
+
+  // Rivela i token dichiarati in setup uno alla volta, lasciando respirare
+  // l'animazione di rivelazione di ciascun token prima del successivo.
+  useEffect(() => {
+    if (!revealing) return;
+    if (!canDrawMore) {
+      setRevealing(false);
+      return;
+    }
+    const isFirst = drawn.length === revealStartCountRef.current;
+    const timer = setTimeout(
+      () => {
+        draw();
+      },
+      isFirst ? FIRST_REVEAL_DELAY_MS : REVEAL_STEP_MS
+    );
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [revealing, drawn.length, canDrawMore]);
 
   return (
     <PageShell onNavigate={onNavigate}>
@@ -65,9 +94,9 @@ export default function EstrazioneScreen({ bag, onMenuClick, onNavigate }) {
 
         <div className="flex justify-center pt-2">
           <HexButton
-            label={t.estrazione.estrai}
-            disabled={!canDrawMore}
-            onClick={draw}
+            label={t.estrazione.rivela}
+            disabled={!canDrawMore || revealing}
+            onClick={startRevealing}
           />
         </div>
 
