@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# PartyKit dev cache
+.partykit
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

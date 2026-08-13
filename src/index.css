@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+/* Sfondo nero di sicurezza: su mobile, lo scroll con "rimbalzo" (o il
+   ricalcolo dell'altezza viewport quando la barra degli indirizzi si
+   nasconde/mostra) può rivelare per un istante lo sfondo nativo della
+   pagina sotto il contenuto. Il gradiente dell'app finisce comunque in
+   nero su tutti i temi, quindi qui evitiamo che quel lampo sia bianco. */
+html,
+body {
+  background-color: #000000;
+}
+
 @theme {
   --color-brand-gold: #d9a256;
   --color-brand-gold-light: #f0c483;

@@ -1,0 +1,2 @@
+# Redirect il vecchio sottodominio Netlify verso il dominio definitivo.
+https://nte-online-tool.netlify.app/*  https://not-the-end-token-bag.com/:splat  301!

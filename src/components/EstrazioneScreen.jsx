@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "../i18n/LanguageContext.jsx";
+import DrawHistory from "./DrawHistory.jsx";
 import DrawRecap from "./DrawRecap.jsx";
 import Header from "./Header.jsx";
 import HexButton from "./HexButton.jsx";
@@ -20,6 +21,7 @@ export default function EstrazioneScreen({ bag, onMenuClick, onNavigate }) {
     bagIsSecret,
     canDrawMore,
     drawn,
+    history,
     draw,
     canRisk,
     risk,
@@ -167,12 +169,14 @@ export default function EstrazioneScreen({ bag, onMenuClick, onNavigate }) {
             <button
               type="button"
               onClick={() => onNavigate("setup")}
-              className="mx-auto block text-xs font-bold uppercase tracking-[0.3em] text-zinc-400 underline decoration-dotted transition-transform hover:text-white active:scale-95"
+              className="mx-auto block text-xs font-bold uppercase tracking-[0.3em] text-brand-gold underline decoration-dotted transition-all hover:text-brand-gold-light active:scale-95"
             >
               {t.estrazione.tornaSetup}
             </button>
           </div>
         )}
+
+        <DrawHistory history={history} />
       </div>
     </PageShell>
   );

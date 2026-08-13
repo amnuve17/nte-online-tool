@@ -5,6 +5,11 @@ const LANGUAGES = [
   { code: "en", label: "EN" },
 ];
 
+// La stanza multiplayer richiede il server PartyKit pubblicato su un dominio
+// proprio (bloccato per ora dall'attesa nameserver di 5 giorni su Netlify).
+// Rimetti a true quando il deploy pubblico è pronto.
+const ROOMS_AVAILABLE = false;
+
 export default function NavMenu({ open, current, onNavigate, onClose }) {
   const { t, language, setLanguage } = useTranslations();
 
@@ -14,8 +19,9 @@ export default function NavMenu({ open, current, onNavigate, onClose }) {
     { id: "landing", label: t.nav.start },
     { id: "setup", label: t.nav.setup },
     { id: "estrazione", label: t.nav.estrazione },
-    { id: "autori", label: t.nav.autori },
+    { id: "stanza", label: t.nav.stanza, disabled: !ROOMS_AVAILABLE },
     { id: "impostazioni", label: t.nav.impostazioni },
+    { id: "autori", label: t.nav.autori },
   ];
 
   return (
@@ -39,15 +45,24 @@ export default function NavMenu({ open, current, onNavigate, onClose }) {
           <button
             key={link.id}
             type="button"
+            disabled={link.disabled}
             onClick={() => onNavigate(link.id)}
             className={
-              "font-display rounded-xl px-3 py-3 text-left text-xl uppercase tracking-wide transition-all active:scale-[0.97] " +
-              (current === link.id
-                ? "text-brand-gold"
-                : "text-white hover:text-brand-gold-light")
+              "font-display rounded-xl px-3 py-3 text-left text-xl uppercase tracking-wide transition-all " +
+              (link.disabled
+                ? "text-zinc-600"
+                : "active:scale-[0.97] " +
+                  (current === link.id
+                    ? "text-brand-gold"
+                    : "text-white hover:text-brand-gold-light"))
             }
           >
             {link.label}
+            {link.disabled && (
+              <span className="ml-2 align-middle text-[10px] normal-case tracking-normal text-zinc-500">
+                {t.stanza.comingSoon}
+              </span>
+            )}
           </button>
         ))}
 

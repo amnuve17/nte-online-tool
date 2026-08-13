@@ -1,48 +1,22 @@
 import { useMemo, useState } from "react";
 import { useTranslations } from "../i18n/LanguageContext.jsx";
+import {
+  DIFFICULTY_BLACKS,
+  clampInt,
+  drawOneFromCounts,
+  randomTraitTokens,
+} from "../lib/bagMath.js";
+
+export { clampInt };
+
+const HISTORY_LIMIT = 30;
 
 function buildDifficulty(t) {
-  return [
-    { id: "facilissima", label: t.difficulty.facilissima, blacks: 1 },
-    { id: "facile", label: t.difficulty.facile, blacks: 2 },
-    { id: "normale", label: t.difficulty.normale, blacks: 3 },
-    { id: "difficile", label: t.difficulty.difficile, blacks: 4 },
-    { id: "difficilissima", label: t.difficulty.difficilissima, blacks: 5 },
-    { id: "quasi_impossibile", label: t.difficulty.quasi_impossibile, blacks: 6 },
-  ];
-}
-
-function randInt(maxExclusive) {
-  if (maxExclusive <= 0) return 0;
-  return crypto.getRandomValues(new Uint32Array(1))[0] % maxExclusive;
-}
-
-function drawOneFromCounts(w, b) {
-  const total = w + b;
-  if (total <= 0) return null;
-  const r = randInt(total);
-  return r < w ? "W" : "B";
-}
-
-export function clampInt(v, min, max) {
-  const n = Number.isFinite(v) ? v : 0;
-  const i = Math.trunc(n);
-  return Math.max(min, Math.min(max, i));
-}
-
-/**
- * Confusione:
- * per ogni tratto, invece di aggiungere 1 bianco, aggiungiamo 1 token casuale (W/B).
- * Nota: assumiamo 50/50 perché non stiamo modellando una riserva fisica finita.
- */
-function randomTraitTokens(nTraits) {
-  let w = 0,
-    b = 0;
-  for (let i = 0; i < nTraits; i++) {
-    if (randInt(2) === 0) w++;
-    else b++;
-  }
-  return { w, b };
+  return Object.keys(DIFFICULTY_BLACKS).map((id) => ({
+    id,
+    label: t.difficulty[id],
+    blacks: DIFFICULTY_BLACKS[id],
+  }));
 }
 
 export default function useTokenBag() {
@@ -68,6 +42,7 @@ export default function useTokenBag() {
   const [bagW, setBagW] = useState(3);
   const [bagB, setBagB] = useState(3);
   const [drawn, setDrawn] = useState([]); // ["W","B",...]
+  const [history, setHistory] = useState([]);
 
   const difficultyOptions = useMemo(() => buildDifficulty(t), [t]);
 
@@ -96,7 +71,23 @@ export default function useTokenBag() {
   const extraSuccess = Math.max(0, drawnW - 1);
   const complications = drawnB;
 
+  // Archivia la prova corrente in cronologia prima che venga sovrascritta o
+  // azzerata (nuova prova o reset). Ignora le prove senza estrazioni.
+  function archiveCurrentTest() {
+    if (drawn.length === 0) return;
+    const entry = {
+      id: crypto.randomUUID(),
+      whites: drawnW,
+      blacks: drawnB,
+      adrenaline: adrenalineActive,
+      confusion: confusionThisTest,
+      risked: riskActive,
+    };
+    setHistory((prev) => [entry, ...prev].slice(0, HISTORY_LIMIT));
+  }
+
   function newTest() {
+    archiveCurrentTest();
     setDrawn([]);
     setRiskActive(false); // ogni nuova prova parte senza rischio
 
@@ -134,6 +125,7 @@ export default function useTokenBag() {
   }
 
   function resetTest() {
+    archiveCurrentTest();
     setBagW(inputWhites);
     setBagB(inputBlacks);
     setDrawn([]);
@@ -184,6 +176,7 @@ export default function useTokenBag() {
     bagW,
     bagB,
     drawn,
+    history,
     inputWhites,
     inputBlacks,
     baseMaxDraw,

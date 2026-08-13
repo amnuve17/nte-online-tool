@@ -4,6 +4,7 @@ import EstrazioneScreen from "./components/EstrazioneScreen.jsx";
 import ImpostazioniScreen from "./components/ImpostazioniScreen.jsx";
 import Landing from "./components/Landing.jsx";
 import NavMenu from "./components/NavMenu.jsx";
+import RoomScreen from "./components/RoomScreen.jsx";
 import SetupScreen from "./components/SetupScreen.jsx";
 import useTokenBag from "./hooks/useTokenBag.js";
 
@@ -76,6 +77,15 @@ export default function App() {
           onMenuClick={() => setMenuOpen(true)}
           onNavigate={navigate}
         />
+        {menu}
+      </>
+    );
+  }
+
+  if (screen === "stanza") {
+    return (
+      <>
+        <RoomScreen onMenuClick={() => setMenuOpen(true)} onNavigate={navigate} />
         {menu}
       </>
     );

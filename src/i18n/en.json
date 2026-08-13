@@ -9,7 +9,8 @@
     "setup": "Setup",
     "estrazione": "Draw",
     "autori": "Authors",
-    "impostazioni": "Settings"
+    "impostazioni": "Settings",
+    "stanza": "Rooms"
   },
   "landing": {
     "subtitle": "Token Bag",
@@ -58,13 +59,13 @@
     "estrai": "DRAW",
     "rivela": "REVEAL",
     "rischia": "Risk",
-    "reimposta": "Reset",
+    "reimposta": "Reset current test",
     "rischiaWarning": "If you risk it, you give the narrator all the black tokens drawn. Only risk it if it's truly important!",
     "infoPrefix": "Choose how to spend",
     "scegliConseguenza": "each black token drawn",
     "vediConseguenze": "How to spend black tokens",
     "nascondiConseguenze": "Hide how to spend black tokens",
-    "tornaSetup": "Back to game setup"
+    "tornaSetup": "Back to bag setup"
   },
   "tokens": {
     "bianco": "W",
@@ -118,6 +119,47 @@
       "tossico": "Toxic",
       "ghiaccio": "Arctic Ice"
     }
+  },
+  "stanza": {
+    "lobbyTitle": "Play in a room",
+    "lobbyDescription": "Create a room to be the master, or join an existing room with the code they shared with you. Nickname and avatar stay only on this device.",
+    "nickname": "Nickname",
+    "nicknamePlaceholder": "Your name",
+    "nicknameRequired": "Enter a nickname",
+    "avatar": "Avatar (optional)",
+    "chooseImage": "Upload image",
+    "removeImage": "Remove",
+    "createRoom": "Create room",
+    "joinRoom": "Join a room",
+    "roomCode": "Room code",
+    "roomCodePlaceholder": "E.g. AB3XZ",
+    "roomCodeRequired": "Enter the room code",
+    "create": "Create",
+    "enter": "Join",
+    "connecting": "Connecting…",
+    "notFound": "Room not found. Check the code.",
+    "yourCode": "Your room code",
+    "shareCode": "Share this code with the other players",
+    "players": "Players",
+    "noPlayers": "No players connected yet.",
+    "you": "(you)",
+    "master": "Master",
+    "composeTest": "Compose the test",
+    "selectActivePlayer": "Who draws?",
+    "startTest": "Start test",
+    "waitingForMaster": "Waiting for the master to start a test…",
+    "waitingForPrefix": "Waiting for",
+    "waitingForSuffix": "to reveal the tokens…",
+    "yourTurn": "Your turn!",
+    "leaveRoom": "Leave room",
+    "historyTitle": "Draw history",
+    "noHistory": "No draws yet.",
+    "adrenalineBadge": "Adrenaline",
+    "confusionBadge": "Confusion",
+    "riskedBadge": "Risked",
+    "backToSetup": "Back to setup",
+    "resetCurrentTest": "Reset current test",
+    "comingSoon": "Coming soon"
   },
   "footer": {
     "autori": "Authors",

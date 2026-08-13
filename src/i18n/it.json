@@ -9,7 +9,8 @@
     "setup": "Setup",
     "estrazione": "Estrazione",
     "autori": "Autori",
-    "impostazioni": "Impostazioni"
+    "impostazioni": "Impostazioni",
+    "stanza": "Stanze"
   },
   "landing": {
     "subtitle": "Token Bag",
@@ -58,13 +59,13 @@
     "estrai": "ESTRAI",
     "rivela": "RIVELA",
     "rischia": "Rischia",
-    "reimposta": "Reimposta",
+    "reimposta": "Reset prova corrente",
     "rischiaWarning": "Se rischi regali al narratore tutti i token neri estratti. Rischia solo se è davvero importante!",
     "infoPrefix": "Scegli come spendere",
     "scegliConseguenza": "ogni token nero estratto",
     "vediConseguenze": "Come spendere i token neri",
     "nascondiConseguenze": "Nascondi come spendere i token neri",
-    "tornaSetup": "Torna al setup della partita"
+    "tornaSetup": "Torna al setup del sacchetto"
   },
   "tokens": {
     "bianco": "B",
@@ -118,6 +119,47 @@
       "tossico": "Tossico",
       "ghiaccio": "Ghiaccio"
     }
+  },
+  "stanza": {
+    "lobbyTitle": "Gioca in stanza",
+    "lobbyDescription": "Crea una stanza per fare da master oppure entra in una stanza esistente con il codice che ti hanno condiviso. Nickname e avatar restano solo su questo dispositivo.",
+    "nickname": "Nickname",
+    "nicknamePlaceholder": "Il tuo nome",
+    "nicknameRequired": "Inserisci un nickname",
+    "avatar": "Avatar (opzionale)",
+    "chooseImage": "Carica immagine",
+    "removeImage": "Rimuovi",
+    "createRoom": "Crea stanza",
+    "joinRoom": "Entra in una stanza",
+    "roomCode": "Codice stanza",
+    "roomCodePlaceholder": "Es. AB3XZ",
+    "roomCodeRequired": "Inserisci il codice stanza",
+    "create": "Crea",
+    "enter": "Entra",
+    "connecting": "Connessione in corso…",
+    "notFound": "Stanza non trovata. Controlla il codice.",
+    "yourCode": "Codice della tua stanza",
+    "shareCode": "Condividi questo codice con gli altri giocatori",
+    "players": "Giocatori",
+    "noPlayers": "Nessun giocatore ancora connesso.",
+    "you": "(tu)",
+    "master": "Master",
+    "composeTest": "Componi la prova",
+    "selectActivePlayer": "Chi estrae?",
+    "startTest": "Avvia prova",
+    "waitingForMaster": "In attesa che il master avvii una prova…",
+    "waitingForPrefix": "In attesa che",
+    "waitingForSuffix": "riveli i token…",
+    "yourTurn": "Tocca a te!",
+    "leaveRoom": "Esci dalla stanza",
+    "historyTitle": "Cronologia estrazioni",
+    "noHistory": "Nessuna estrazione ancora effettuata.",
+    "adrenalineBadge": "Adrenalina",
+    "confusionBadge": "Confusione",
+    "riskedBadge": "Rischiato",
+    "backToSetup": "Torna al setup",
+    "resetCurrentTest": "Reset prova corrente",
+    "comingSoon": "Presto disponibile"
   },
   "footer": {
     "autori": "Autori",

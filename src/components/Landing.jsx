@@ -7,12 +7,12 @@ import { useTranslations } from "../i18n/LanguageContext.jsx";
 export default function Landing({ onStart, onNavigate }) {
   const { t } = useTranslations();
   return (
-    <div className="min-h-screen w-full" style={{ backgroundImage: HERO_GRADIENT }}>
-      <div className="relative mx-auto min-h-screen w-full max-w-120 overflow-hidden text-white">
+    <div className="min-h-dvh w-full" style={{ backgroundImage: HERO_GRADIENT }}>
+      <div className="relative mx-auto min-h-dvh w-full max-w-120 overflow-hidden text-white">
         <HexField className="absolute inset-0 h-full w-full" />
         <div className="absolute inset-0 bg-linear-to-b from-black/15 via-transparent to-black/50" />
 
-        <div className="relative z-10 flex min-h-screen flex-col">
+        <div className="relative z-10 flex min-h-dvh flex-col">
           <div className="mx-auto flex w-full max-w-sm flex-1 flex-col px-7 pt-12 pb-24">
             <header className="text-center">
               <h1 className="font-display text-5xl uppercase leading-none tracking-tight">
