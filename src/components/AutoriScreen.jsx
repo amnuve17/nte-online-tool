@@ -10,7 +10,7 @@ export default function AutoriScreen({ onMenuClick, onNavigate }) {
     {
       name: 'Nicola "Amnuve" Buenza',
       role: t.autori.roles.nicola,
-      image: "/authors/nicola.png",
+      image: "/authors/nicola.webp",
       socials: [
         { type: "instagram", url: "https://www.instagram.com/amnuve/" },
         { type: "youtube", url: "https://www.youtube.com/@amnuve" },
@@ -19,7 +19,7 @@ export default function AutoriScreen({ onMenuClick, onNavigate }) {
     {
       name: "Lorenzo Di Nucci",
       role: t.autori.roles.lorenzo,
-      image: "/authors/lorenzo.png",
+      image: "/authors/lorenzo.webp",
       socials: [
         { type: "behance", url: "https://www.behance.net/lorenzodinucci" },
       ],
