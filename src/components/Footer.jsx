@@ -14,6 +14,14 @@ export default function Footer({ onNavigate }) {
       >
         {t.footer.autori}
       </button>
+      {" · "}
+      <button
+        type="button"
+        onClick={() => onNavigate?.("privacy")}
+        className="inline-block text-sm text-zinc-300 underline transition-transform hover:text-white active:scale-95"
+      >
+        {t.footer.privacy}
+      </button>
       <p className="mt-2">{t.footer.line1}</p>
       <p className="mt-1">
         {t.footer.belongsTo}{" "}

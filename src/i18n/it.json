@@ -163,9 +163,41 @@
   },
   "footer": {
     "autori": "Autori",
+    "privacy": "Privacy Policy",
     "line1": "Questo tool è stato sviluppato amatorialmente e non a scopo di lucro.",
     "belongsTo": "Not The End appartiene a",
     "and": "e",
     "rightsReserved": "Tutti i diritti riservati."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "updated": "Ultimo aggiornamento: 14 agosto 2026",
+    "intro": "Not the End Token Bag è un progetto amatoriale, sviluppato senza scopo di lucro. Questa pagina spiega quali dati vengono trattati durante l'utilizzo dello strumento.",
+    "sections": [
+      {
+        "title": "Dati salvati sul tuo dispositivo",
+        "body": "Il tool salva alcune preferenze direttamente nel tuo browser (localStorage): lingua, tema grafico, immagini personalizzate dei token e nickname/avatar usati nelle stanze multiplayer. Questi dati non vengono mai inviati a un server e restano sul tuo dispositivo finché non svuoti la cache del browser o li rimuovi dalle impostazioni del tool."
+      },
+      {
+        "title": "Modalità Stanze (multiplayer)",
+        "body": "Se scegli di creare o entrare in una stanza, il nickname e l'eventuale immagine avatar che inserisci, insieme ai risultati delle estrazioni, vengono trasmessi in tempo reale agli altri partecipanti della stessa stanza tramite un server ospitato su Cloudflare (servizio PartyKit). Questi dati esistono solo in memoria per la durata della sessione: non vengono salvati su alcun database e vengono cancellati quando la stanza si svuota o il server viene riavviato."
+      },
+      {
+        "title": "Hosting",
+        "body": "Il sito è ospitato su Netlify, che come qualsiasi servizio di hosting raccoglie automaticamente log tecnici di accesso (ad esempio indirizzo IP, data e ora della richiesta) per motivi di sicurezza e funzionamento del servizio."
+      },
+      {
+        "title": "Nessun tracciamento",
+        "body": "Questo tool non utilizza cookie di profilazione, strumenti di analisi (come Google Analytics), pubblicità o sistemi di tracciamento. Non vendiamo né condividiamo alcun dato con terze parti a scopo commerciale."
+      },
+      {
+        "title": "I tuoi diritti",
+        "body": "Puoi cancellare in qualsiasi momento i dati salvati localmente svuotando la cache o i dati del sito dalle impostazioni del tuo browser. Per qualsiasi domanda relativa al trattamento dei dati, puoi contattarci ai recapiti indicati sotto."
+      },
+      {
+        "title": "Contatti",
+        "body": "Per segnalazioni, domande o richieste relative alla privacy, puoi scrivere su Discord al profilo Amnuve."
+      }
+    ]
   }
 }

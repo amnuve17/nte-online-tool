@@ -163,9 +163,41 @@
   },
   "footer": {
     "autori": "Authors",
+    "privacy": "Privacy Policy",
     "line1": "This tool was developed as a hobby project and not for profit.",
     "belongsTo": "Not The End belongs to",
     "and": "and",
     "rightsReserved": "All rights reserved."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "updated": "Last updated: August 14, 2026",
+    "intro": "Not the End Token Bag is a hobby project, developed on a non-profit basis. This page explains what data is processed while using the tool.",
+    "sections": [
+      {
+        "title": "Data saved on your device",
+        "body": "The tool saves some preferences directly in your browser (localStorage): language, theme, custom token images, and the nickname/avatar used in multiplayer rooms. This data is never sent to a server and stays on your device until you clear your browser cache or remove it from the tool's settings."
+      },
+      {
+        "title": "Rooms mode (multiplayer)",
+        "body": "If you create or join a room, the nickname and optional avatar image you enter, together with the draw results, are transmitted in real time to the other participants in the same room through a server hosted on Cloudflare (PartyKit service). This data exists only in memory for the duration of the session: it is never saved to any database and is deleted when the room empties or the server restarts."
+      },
+      {
+        "title": "Hosting",
+        "body": "The site is hosted on Netlify, which like any hosting service automatically collects technical access logs (e.g. IP address, date and time of the request) for security and operational purposes."
+      },
+      {
+        "title": "No tracking",
+        "body": "This tool does not use profiling cookies, analytics tools (such as Google Analytics), advertising, or tracking systems. We do not sell or share any data with third parties for commercial purposes."
+      },
+      {
+        "title": "Your rights",
+        "body": "You can delete locally saved data at any time by clearing your browser's cache or site data. For any question about data processing, you can contact us using the details below."
+      },
+      {
+        "title": "Contact",
+        "body": "For reports, questions, or privacy-related requests, you can message us on Discord at the Amnuve profile."
+      }
+    ]
   }
 }
