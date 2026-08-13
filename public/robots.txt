@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://not-the-end-token-bag.com/sitemap.xml
