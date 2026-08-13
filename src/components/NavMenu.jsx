@@ -7,8 +7,9 @@ const LANGUAGES = [
 
 // La stanza multiplayer richiede il server PartyKit pubblicato su un dominio
 // proprio (bloccato per ora dall'attesa nameserver di 5 giorni su Netlify).
-// Rimetti a true quando il deploy pubblico è pronto.
-const ROOMS_AVAILABLE = false;
+// Attiva automaticamente in sviluppo locale (punta a 127.0.0.1:1999),
+// disattivata nelle build di produzione finché il deploy pubblico non è pronto.
+const ROOMS_AVAILABLE = import.meta.env.DEV;
 
 export default function NavMenu({ open, current, onNavigate, onClose }) {
   const { t, language, setLanguage } = useTranslations();
