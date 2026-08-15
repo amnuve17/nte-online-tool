@@ -4,6 +4,9 @@
     "closeMenu": "Chiudi menu",
     "openMenu": "Apri menu"
   },
+  "meta": {
+    "description": "Strumento gratuito per giocare online a Not The End: estrazioni, difficoltà, tratti, adrenalina, confusione e modalità multiplayer in stanza."
+  },
   "nav": {
     "start": "Start",
     "partitaRapida": "Rapida",

@@ -26,6 +26,10 @@ export function LanguageProvider({ children }) {
 
   useEffect(() => {
     document.documentElement.lang = language;
+    const descriptionTag = document.querySelector('meta[name="description"]');
+    if (descriptionTag) {
+      descriptionTag.setAttribute("content", TRANSLATIONS[language].meta.description);
+    }
   }, [language]);
 
   return (
