@@ -6,8 +6,7 @@
   },
   "nav": {
     "start": "Start",
-    "setup": "Setup",
-    "estrazione": "Draw",
+    "partitaRapida": "Quick",
     "autori": "Authors",
     "impostazioni": "Settings",
     "stanza": "Rooms"
@@ -16,7 +15,12 @@
     "subtitle": "Token Bag",
     "description": "Press start, then set up your bag and draw your results. All the game's base mechanics are currently covered — if you have any bug reports or suggestions, message me on Discord at Amnuve.",
     "helpLink": "You can buy the official materials here",
-    "start": "START"
+    "quickMatch": "QUICK",
+    "quickMatchHighlight": "Ideal for rapid sessions.",
+    "quickMatchDescription": "Suited for playing with a single device shared with the party.",
+    "multiplayer": "ROOMS",
+    "multiplayerHighlight": "Ideal for remote play.",
+    "multiplayerDescription": "The master creates a room and players join from their own devices. The master can decide who performs each draw, and results are shared in real time."
   },
   "difficulty": {
     "facilissima": "Very Easy",
@@ -158,8 +162,7 @@
     "confusionBadge": "Confusion",
     "riskedBadge": "Risked",
     "backToSetup": "Back to setup",
-    "resetCurrentTest": "Reset current test",
-    "comingSoon": "Coming soon"
+    "resetCurrentTest": "Reset current test"
   },
   "footer": {
     "autori": "Authors",

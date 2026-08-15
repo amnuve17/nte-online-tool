@@ -13,7 +13,7 @@ export default function Landing({ onStart, onNavigate }) {
         <div className="absolute inset-0 bg-linear-to-b from-black/15 via-transparent to-black/50" />
 
         <div className="relative z-10 flex min-h-dvh flex-col">
-          <div className="mx-auto flex w-full max-w-sm flex-1 flex-col px-7 pt-12 pb-24">
+          <div className="mx-auto flex w-full max-w-sm flex-col px-7 pt-12 pb-10">
             <header className="text-center">
               <h1 className="font-display text-5xl uppercase leading-none tracking-tight">
                 {t.common.brand}
@@ -37,8 +37,33 @@ export default function Landing({ onStart, onNavigate }) {
               {t.landing.helpLink}
             </a>
 
-            <div className="mt-16 flex justify-center">
-              <HexButton label={t.landing.start} onClick={onStart} />
+            <div className="mt-12 flex flex-col items-center gap-12">
+              <div className="flex flex-col items-center gap-4">
+                <HexButton label={t.landing.quickMatch} onClick={onStart} />
+                <p className="font-brand-serif max-w-60 text-center leading-relaxed">
+                  <span className="block text-sm font-semibold text-white">
+                    {t.landing.quickMatchHighlight}
+                  </span>
+                  <span className="mt-1 block text-xs text-zinc-300/90">
+                    {t.landing.quickMatchDescription}
+                  </span>
+                </p>
+              </div>
+
+              <div className="flex flex-col items-center gap-4">
+                <HexButton
+                  label={t.landing.multiplayer}
+                  onClick={() => onNavigate("stanza")}
+                />
+                <p className="font-brand-serif max-w-60 text-center leading-relaxed">
+                  <span className="block text-sm font-semibold text-white">
+                    {t.landing.multiplayerHighlight}
+                  </span>
+                  <span className="mt-1 block text-xs text-zinc-300/90">
+                    {t.landing.multiplayerDescription}
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
 

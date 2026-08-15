@@ -21,7 +21,7 @@ export default function HexButton({ label, onClick, disabled = false, className 
       </svg>
       <span
         className={
-          "font-display relative z-10 text-2xl tracking-[0.2em] transition-colors " +
+          "font-display relative z-10 text-2xl tracking-[0.2em] [word-spacing:-0.2em] transition-colors " +
           (disabled
             ? "text-zinc-500"
             : "text-brand-gold group-hover:text-brand-gold-light")

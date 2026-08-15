@@ -6,8 +6,7 @@
   },
   "nav": {
     "start": "Start",
-    "setup": "Setup",
-    "estrazione": "Estrazione",
+    "partitaRapida": "Rapida",
     "autori": "Autori",
     "impostazioni": "Impostazioni",
     "stanza": "Stanze"
@@ -16,7 +15,12 @@
     "subtitle": "Token Bag",
     "description": "Premi start poi effettua il setup del tuo sacchetto ed estrai i risultati. Al momento sono coperte tutte le meccaniche base del gioco, se dovessi avere delle segnalazioni o dei suggerimenti puoi scrivermi su discord al profilo Amnuve.",
     "helpLink": "Puoi acquistare i materiali ufficiali qui",
-    "start": "START"
+    "quickMatch": "RAPIDA",
+    "quickMatchHighlight": "Ideale per sessioni veloci.",
+    "quickMatchDescription": "Modalità adatta se si vuole giocare con un solo dispositivo da condividere con il party.",
+    "multiplayer": "STANZE",
+    "multiplayerHighlight": "Ideale per giocare da remoto.",
+    "multiplayerDescription": "Il master crea una stanza e i player si uniscono da i propri dispositivi. Il master potrà decidere chi effettuerà le estrazioni ed i risultati saranno condivisi in tempo reale."
   },
   "difficulty": {
     "facilissima": "Facilissima",
@@ -158,8 +162,7 @@
     "confusionBadge": "Confusione",
     "riskedBadge": "Rischiato",
     "backToSetup": "Torna al setup",
-    "resetCurrentTest": "Reset prova corrente",
-    "comingSoon": "Presto disponibile"
+    "resetCurrentTest": "Reset prova corrente"
   },
   "footer": {
     "autori": "Autori",

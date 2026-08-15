@@ -2,9 +2,9 @@ import { createContext, useContext, useMemo, useState } from "react";
 import { usePartySocket } from "partysocket/react";
 
 // In sviluppo punta al server locale avviato con `npm run party`
-// (partykit dev, porta 1999). Dopo `npx partykit deploy`, imposta
-// VITE_PARTYKIT_HOST all'host assegnato (<nome>.<utente>.partykit.dev).
-const PARTYKIT_HOST = import.meta.env.VITE_PARTYKIT_HOST || "127.0.0.1:1999";
+// (wrangler dev, porta 8787). Dopo `wrangler deploy`, imposta
+// VITE_PARTYKIT_HOST all'host del dominio collegato al Worker.
+const ROOM_HOST = import.meta.env.VITE_PARTYKIT_HOST || "127.0.0.1:8787";
 
 const RoomContext = createContext(null);
 
@@ -13,7 +13,7 @@ export function RoomProvider({ roomCode, role, identity, children }) {
   const [connected, setConnected] = useState(false);
 
   const socket = usePartySocket({
-    host: PARTYKIT_HOST,
+    host: ROOM_HOST,
     room: roomCode,
     onOpen() {
       setConnected(true);

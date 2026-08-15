@@ -12,8 +12,8 @@ dist
 dist-ssr
 *.local
 
-# PartyKit dev cache
-.partykit
+# Wrangler dev cache
+.wrangler
 
 # Editor directories and files
 .vscode/*

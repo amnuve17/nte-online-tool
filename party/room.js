@@ -1,3 +1,4 @@
+import { DurableObject } from "cloudflare:workers";
 import {
   DEFAULT_ROOM_SETUP,
   DIFFICULTY_BLACKS,
@@ -96,9 +97,9 @@ function riskOne(state) {
 
 const HISTORY_LIMIT = 30;
 
-// Archivia la prova corrente nella cronologia della stanza prima che venga
-// sovrascritta/azzerata (nuova selezione, cambio setup, reset o disconnessione
-// del giocatore attivo). Ignora le prove senza estrazioni: non c'è nulla da mostrare.
+// Archivia la prova corrente in cronologia prima che venga sovrascritta o
+// azzerata (nuova selezione, cambio setup, reset o disconnessione del
+// giocatore attivo). Ignora le prove senza estrazioni.
 function archiveTest(state) {
   const test = state.test;
   if (!test || test.drawn.length === 0) return;
@@ -116,45 +117,73 @@ function archiveTest(state) {
   if (state.history.length > HISTORY_LIMIT) state.history.length = HISTORY_LIMIT;
 }
 
-export default class RoomServer {
-  static options = { hibernate: true };
+function initialState() {
+  return {
+    masterId: null,
+    players: {},
+    setup: { ...DEFAULT_ROOM_SETUP },
+    activePlayerId: null,
+    test: null,
+    history: [],
+  };
+}
 
-  constructor(room) {
-    this.room = room;
-    this.state = {
-      masterId: null,
-      players: {},
-      setup: { ...DEFAULT_ROOM_SETUP },
-      activePlayerId: null,
-      test: null,
-      history: [],
-    };
+const STORAGE_KEY = "state";
+
+// Durable Object nativo Cloudflare (sostituisce la classe Party.Server di
+// PartyKit): stessa logica di gioco, ma gestiamo noi la connessione
+// WebSocket, l'id di ogni client e la persistenza dello stato tra un
+// "risveglio" e l'altro dell'oggetto (con PartyKit questo era automatico).
+export class Room extends DurableObject {
+  constructor(ctx, env) {
+    super(ctx, env);
+    this.ctx = ctx;
+    this.state = initialState();
+    ctx.blockConcurrencyWhile(async () => {
+      const stored = await ctx.storage.get(STORAGE_KEY);
+      if (stored) this.state = stored;
+    });
   }
 
-  send(conn) {
-    conn.send(JSON.stringify({ type: "state", state: this.state }));
+  async persist() {
+    await this.ctx.storage.put(STORAGE_KEY, this.state);
   }
 
   broadcast() {
-    this.room.broadcast(JSON.stringify({ type: "state", state: this.state }));
-  }
-
-  onConnect(connection) {
-    this.send(connection);
-  }
-
-  onClose(connection) {
-    delete this.state.players[connection.id];
-    if (this.state.masterId === connection.id) this.state.masterId = null;
-    if (this.state.activePlayerId === connection.id) {
-      archiveTest(this.state);
-      this.state.activePlayerId = null;
-      this.state.test = null;
+    const payload = JSON.stringify({ type: "state", state: this.state });
+    for (const ws of this.ctx.getWebSockets()) {
+      try {
+        ws.send(payload);
+      } catch {
+        // connessione morta, verrà ripulita da webSocketClose/Error
+      }
     }
-    this.broadcast();
   }
 
-  onMessage(message, sender) {
+  async fetch(request) {
+    const upgradeHeader = request.headers.get("Upgrade");
+    if (upgradeHeader !== "websocket") {
+      return new Response("Expected websocket", { status: 426 });
+    }
+
+    // partysocket genera il proprio id lato client e lo manda come query
+    // param `_pk` sull'URL di connessione (vedi node_modules/partysocket
+    // /dist/index.js:163-164) — lo riusiamo come id di connessione così
+    // combacia sempre con `socket.id` letto dal client (RoomContext.jsx),
+    // da cui dipende il riconoscimento di master/giocatore attivo.
+    const id = new URL(request.url).searchParams.get("_pk") || crypto.randomUUID();
+
+    const pair = new WebSocketPair();
+    const [client, server] = Object.values(pair);
+    server.serializeAttachment({ id });
+    this.ctx.acceptWebSocket(server);
+    server.send(JSON.stringify({ type: "state", state: this.state }));
+
+    return new Response(null, { status: 101, webSocket: client });
+  }
+
+  async webSocketMessage(ws, message) {
+    const { id: senderId } = ws.deserializeAttachment();
     let msg;
     try {
       msg = JSON.parse(message);
@@ -162,16 +191,16 @@ export default class RoomServer {
       return;
     }
 
-    const isMaster = sender.id === this.state.masterId;
-    const isActivePlayer = sender.id === this.state.activePlayerId;
+    const isMaster = senderId === this.state.masterId;
+    const isActivePlayer = senderId === this.state.activePlayerId;
 
     switch (msg.type) {
       case "join": {
         const nickname = String(msg.nickname || "?").slice(0, 24);
         const avatar = typeof msg.avatar === "string" ? msg.avatar : null;
-        this.state.players[sender.id] = { nickname, avatar };
+        this.state.players[senderId] = { nickname, avatar };
         if (msg.role === "master" && !this.state.masterId) {
-          this.state.masterId = sender.id;
+          this.state.masterId = senderId;
         }
         break;
       }
@@ -180,9 +209,6 @@ export default class RoomServer {
         if (!isMaster) return;
         archiveTest(this.state);
         this.state.setup = sanitizeSetup(msg.setup || {}, this.state.setup);
-        // Cambiare il setup invalida la selezione corrente: il giocatore
-        // attivo va ri-selezionato esplicitamente per partire con la prova
-        // aggiornata, ed evita che una prova in corso cambi parametri sotto i piedi.
         this.state.activePlayerId = null;
         this.state.test = null;
         break;
@@ -220,6 +246,50 @@ export default class RoomServer {
         return;
     }
 
+    await this.persist();
     this.broadcast();
   }
+
+  async handleDisconnect(ws) {
+    const attachment = ws.deserializeAttachment();
+    if (!attachment) return;
+    const { id: senderId } = attachment;
+
+    delete this.state.players[senderId];
+    if (this.state.masterId === senderId) this.state.masterId = null;
+    if (this.state.activePlayerId === senderId) {
+      archiveTest(this.state);
+      this.state.activePlayerId = null;
+      this.state.test = null;
+    }
+
+    await this.persist();
+    this.broadcast();
+  }
+
+  async webSocketClose(ws) {
+    await this.handleDisconnect(ws);
+  }
+
+  async webSocketError(ws) {
+    await this.handleDisconnect(ws);
+  }
 }
+
+// Worker "router": PartyKit instradava automaticamente /parties/:party/:room
+// alla Durable Object giusta in base al nome stanza — qui lo facciamo a mano,
+// mantenendo lo stesso schema di URL così il client (usePartySocket) non
+// richiede alcuna modifica, solo un host diverso a cui puntare.
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    const match = url.pathname.match(/^\/parties\/[^/]+\/([^/]+)/);
+    if (!match) {
+      return new Response("Not found", { status: 404 });
+    }
+    const roomCode = match[1];
+    const id = env.ROOMS.idFromName(roomCode);
+    const stub = env.ROOMS.get(id);
+    return stub.fetch(request);
+  },
+};
