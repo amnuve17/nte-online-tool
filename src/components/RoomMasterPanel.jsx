@@ -47,7 +47,7 @@ export default function RoomMasterPanel({ roomCode, onLeave, onMenuClick, onNavi
         <RoomPlayerList />
 
         <div className="space-y-6">
-          <div className="text-sm font-bold uppercase tracking-wide">
+          <div className="text-base font-bold uppercase tracking-wide">
             {t.stanza.composeTest}
           </div>
 

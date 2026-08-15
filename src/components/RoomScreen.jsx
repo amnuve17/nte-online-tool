@@ -128,7 +128,7 @@ export default function RoomScreen({ onMenuClick, onNavigate }) {
     <PageShell onNavigate={onNavigate}>
       <Header variant="plain" onMenuClick={onMenuClick} onNavigate={onNavigate} />
 
-      <div className="space-y-8 px-6 pb-10">
+      <div className="space-y-6 px-6 pb-10">
         <div className="space-y-4">
           <h2 className="font-display text-2xl uppercase tracking-tight">
             {t.stanza.lobbyTitle}

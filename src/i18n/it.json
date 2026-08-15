@@ -126,7 +126,7 @@
   },
   "stanza": {
     "lobbyTitle": "Gioca in stanza",
-    "lobbyDescription": "Crea una stanza per fare da master oppure entra in una stanza esistente con il codice che ti hanno condiviso. Nickname e avatar restano solo su questo dispositivo.",
+    "lobbyDescription": "Crea una stanza per fare da master oppure entra in una stanza esistente con il codice che ti hanno condiviso.",
     "nickname": "Nickname",
     "nicknamePlaceholder": "Il tuo nome",
     "nicknameRequired": "Inserisci un nickname",

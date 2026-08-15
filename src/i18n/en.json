@@ -126,7 +126,7 @@
   },
   "stanza": {
     "lobbyTitle": "Play in a room",
-    "lobbyDescription": "Create a room to be the master, or join an existing room with the code they shared with you. Nickname and avatar stay only on this device.",
+    "lobbyDescription": "Create a room to be the master, or join an existing room with the code they shared with you.",
     "nickname": "Nickname",
     "nicknamePlaceholder": "Your name",
     "nicknameRequired": "Enter a nickname",
