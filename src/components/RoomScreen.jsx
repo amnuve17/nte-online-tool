@@ -4,6 +4,7 @@ import { RoomProvider, useRoom } from "../context/RoomContext.jsx";
 import { useRoomIdentity } from "../lib/roomIdentity.js";
 import { resizeImageToDataUrl } from "../lib/resizeImage.js";
 import { generateRoomCode, normalizeRoomCode } from "../lib/roomCode.js";
+import { loadStoredRoom, saveStoredRoom } from "../lib/roomSession.js";
 import Header from "./Header.jsx";
 import HexButton from "./HexButton.jsx";
 import PageShell from "./PageShell.jsx";
@@ -73,7 +74,12 @@ export default function RoomScreen({ onMenuClick, onNavigate }) {
   const avatarInputRef = useRef(null);
   const [joinCode, setJoinCode] = useState("");
   const [error, setError] = useState("");
-  const [room, setRoom] = useState(null); // { code, role } | null
+  const [room, setRoomState] = useState(loadStoredRoom); // { code, role } | null
+
+  function setRoom(next) {
+    setRoomState(next);
+    saveStoredRoom(next);
+  }
 
   async function handleAvatarChange(e) {
     const file = e.target.files?.[0];

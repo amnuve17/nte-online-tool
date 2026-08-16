@@ -8,9 +8,10 @@ import PrivacyScreen from "./components/PrivacyScreen.jsx";
 import RoomScreen from "./components/RoomScreen.jsx";
 import SetupScreen from "./components/SetupScreen.jsx";
 import useTokenBag from "./hooks/useTokenBag.js";
+import { loadStoredRoom } from "./lib/roomSession.js";
 
 export default function App() {
-  const [screen, setScreen] = useState("landing");
+  const [screen, setScreen] = useState(() => (loadStoredRoom() ? "stanza" : "landing"));
   const [menuOpen, setMenuOpen] = useState(false);
   const bag = useTokenBag();
 
