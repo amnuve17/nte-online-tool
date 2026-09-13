@@ -142,6 +142,47 @@ export default function RoomMasterPanel({ roomCode, onLeave, onMenuClick, onNavi
               </span>
             </label>
           </div>
+
+          <details className="group border border-zinc-700 bg-zinc-900/40 px-4 py-3">
+            <summary className="cursor-pointer text-sm font-bold uppercase tracking-wide select-none">
+              {t.setup.avanzateTitle}
+            </summary>
+            <div className="mt-4 space-y-5">
+              <p className="font-brand-serif text-xs italic text-zinc-400">
+                {t.setup.avanzateIntro}
+              </p>
+
+              <div className="space-y-2">
+                <div className="text-sm font-bold uppercase tracking-wide">
+                  {t.setup.bonusBianchi}
+                </div>
+                <Stepper
+                  value={setup.bonusWhites ?? 0}
+                  min={-5}
+                  max={5}
+                  onChange={(v) => updateSetup({ bonusWhites: v })}
+                />
+                <div className="font-brand-serif text-xs italic text-brand-rose/90">
+                  {t.setup.bonusBianchiHint}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <div className="text-sm font-bold uppercase tracking-wide">
+                  {t.setup.bonusEstrazioni}
+                </div>
+                <Stepper
+                  value={setup.bonusMaxDraw ?? 0}
+                  min={0}
+                  max={2}
+                  onChange={(v) => updateSetup({ bonusMaxDraw: v })}
+                />
+                <div className="font-brand-serif text-xs italic text-brand-rose/90">
+                  {t.setup.bonusEstrazioniHint}
+                </div>
+              </div>
+            </div>
+          </details>
         </div>
 
         <div className="space-y-3">

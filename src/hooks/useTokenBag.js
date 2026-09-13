@@ -31,12 +31,22 @@ export default function useTokenBag() {
   const [maxDraw, setMaxDraw] = useState(4); // limite base 1–4
   const [adrenalineActive, setAdrenalineActive] = useState(false); // fissa le estrazioni base a 4
 
-  // Rischio: si decide DOPO le estrazioni base, e porta a 5 totali
+  // Rischio: si decide DOPO le estrazioni base, e porta a base+1 totali
   const [riskActive, setRiskActive] = useState(false);
 
   // Confusione: vale per la PROSSIMA prova; poi si consuma
   const [confusionNext, setConfusionNext] = useState(false);
   const [confusionThisTest, setConfusionThisTest] = useState(false);
+
+  // --- avanzate (lezioni/abilità specifiche) ---
+  // Bianchi bonus: si sommano ai tratti ma NON sono soggetti a confusione
+  // (restano garantiti, come descritto dalle lezioni che li generano).
+  const [bonusWhites, setBonusWhites] = useState(0);
+  // Estrazioni bonus: si sommano al limite base (4), es. "Bisogna saper osare".
+  const [bonusMaxDraw, setBonusMaxDraw] = useState(0);
+  // Permesso di sbirciare il sacchetto anche se la prova è confusa; si
+  // riconsuma a ogni nuova prova, come le altre concessioni delle lezioni.
+  const [revealBag, setRevealBag] = useState(false);
 
   // --- stato prova corrente (sacchetto ed estrazioni) ---
   const [bagW, setBagW] = useState(3);
@@ -56,10 +66,13 @@ export default function useTokenBag() {
   const inputBlacks =
     blacksOverride > 0 ? clampInt(blacksOverride, 0, 99) : difficulty.blacks;
 
-  const inputWhites = clampInt(traitsInPlay, 0, 12);
+  const traitsWhites = clampInt(traitsInPlay, 0, 12);
+  const bonusWhitesClamped = clampInt(bonusWhites, -5, 5);
+  const inputWhites = Math.max(0, traitsWhites + bonusWhitesClamped);
 
-  const baseMaxDraw = adrenalineActive ? 4 : clampInt(maxDraw, 1, 4);
-  const effectiveMaxDraw = riskActive ? 5 : baseMaxDraw;
+  const baseMaxDraw =
+    (adrenalineActive ? 4 : clampInt(maxDraw, 1, 4)) + clampInt(bonusMaxDraw, 0, 2);
+  const effectiveMaxDraw = riskActive ? baseMaxDraw + 1 : baseMaxDraw;
 
   const totalInBag = bagW + bagB;
   const canDrawMore = drawn.length < effectiveMaxDraw && totalInBag > 0;
@@ -90,10 +103,14 @@ export default function useTokenBag() {
     archiveCurrentTest();
     setDrawn([]);
     setRiskActive(false); // ogni nuova prova parte senza rischio
+    setRevealBag(false); // il permesso di sbirciare si riconsuma ogni prova
 
     if (confusionNext) {
-      const { w, b } = randomTraitTokens(inputWhites);
-      setBagW(w);
+      // Solo i token dei tratti sono soggetti a confusione: i bianchi bonus
+      // (lezioni) restano garantiti e si aggiungono dopo, senza essere
+      // randomizzati.
+      const { w, b } = randomTraitTokens(traitsWhites);
+      setBagW(Math.max(0, w + bonusWhitesClamped));
       setBagB(inputBlacks + b);
 
       setConfusionThisTest(true);
@@ -131,6 +148,7 @@ export default function useTokenBag() {
     setDrawn([]);
     setConfusionThisTest(false);
     setRiskActive(false);
+    setRevealBag(false);
   }
 
   function resetAll() {
@@ -138,9 +156,12 @@ export default function useTokenBag() {
     setDifficultyId("");
     setBlacksOverride(0);
     setMaxDraw(4);
+    setBonusWhites(0);
+    setBonusMaxDraw(0);
     setAdrenalineActive(false);
 
     setRiskActive(false);
+    setRevealBag(false);
 
     setConfusionNext(false);
     setConfusionThisTest(false);
@@ -150,13 +171,9 @@ export default function useTokenBag() {
     setDrawn([]);
   }
 
-  const bagIsSecret = confusionThisTest;
+  const bagIsSecret = confusionThisTest && !revealBag;
 
-  const canRisk =
-    !riskActive &&
-    drawn.length === baseMaxDraw &&
-    baseMaxDraw < 5 &&
-    totalInBag > 0;
+  const canRisk = !riskActive && drawn.length === baseMaxDraw && totalInBag > 0;
 
   return {
     difficultyOptions,
@@ -168,6 +185,12 @@ export default function useTokenBag() {
     setBlacksOverride,
     maxDraw,
     setMaxDraw,
+    bonusWhites,
+    setBonusWhites,
+    bonusMaxDraw,
+    setBonusMaxDraw,
+    revealBag,
+    setRevealBag,
     adrenalineActive,
     setAdrenalineActive,
     confusionNext,

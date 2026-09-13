@@ -6,7 +6,9 @@ import { clampInt } from "./bagMath.js";
 export function deriveRoomBag(state, actions) {
   const setup = state.setup;
   const test = state.test;
-  const baseMaxDraw = setup.adrenalineActive ? 4 : clampInt(setup.maxDraw, 1, 4);
+  const baseMaxDraw =
+    (setup.adrenalineActive ? 4 : clampInt(setup.maxDraw, 1, 4)) +
+    clampInt(setup.bonusMaxDraw, 0, 2);
 
   if (!test) {
     return {
@@ -24,25 +26,23 @@ export function deriveRoomBag(state, actions) {
       draw: actions.draw,
       risk: actions.risk,
       resetTest: actions.resetTest,
+      revealBag: actions.revealBag,
     };
   }
 
-  const effectiveMaxDraw = test.riskActive ? 5 : baseMaxDraw;
+  const effectiveMaxDraw = test.riskActive ? baseMaxDraw + 1 : baseMaxDraw;
   const totalInBag = test.bagW + test.bagB;
   const canDrawMore = test.drawn.length < effectiveMaxDraw && totalInBag > 0;
   const drawnW = test.drawn.filter((x) => x === "W").length;
   const complications = test.drawn.filter((x) => x === "B").length;
   const canRisk =
-    !test.riskActive &&
-    test.drawn.length === baseMaxDraw &&
-    baseMaxDraw < 5 &&
-    totalInBag > 0;
+    !test.riskActive && test.drawn.length === baseMaxDraw && totalInBag > 0;
 
   return {
     bagW: test.bagW,
     bagB: test.bagB,
     totalInBag,
-    bagIsSecret: test.confusionThisTest,
+    bagIsSecret: test.confusionThisTest && !test.revealed,
     canDrawMore,
     drawn: test.drawn,
     effectiveMaxDraw,
@@ -53,5 +53,6 @@ export function deriveRoomBag(state, actions) {
     draw: actions.draw,
     risk: actions.risk,
     resetTest: actions.resetTest,
+    revealBag: actions.revealBag,
   };
 }

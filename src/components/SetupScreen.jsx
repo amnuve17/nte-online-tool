@@ -17,6 +17,10 @@ export default function SetupScreen({ bag, onMenuClick, onEstrai, onNavigate }) 
     setBlacksOverride,
     maxDraw,
     setMaxDraw,
+    bonusWhites,
+    setBonusWhites,
+    bonusMaxDraw,
+    setBonusMaxDraw,
     adrenalineActive,
     setAdrenalineActive,
     confusionNext,
@@ -139,6 +143,47 @@ export default function SetupScreen({ bag, onMenuClick, onEstrai, onNavigate }) 
             </span>
           </label>
         </div>
+
+        <details className="group border border-zinc-700 bg-zinc-900/40 px-4 py-3">
+          <summary className="cursor-pointer text-sm font-bold uppercase tracking-wide select-none">
+            {t.setup.avanzateTitle}
+          </summary>
+          <div className="mt-4 space-y-5">
+            <p className="font-brand-serif text-xs italic text-zinc-400">
+              {t.setup.avanzateIntro}
+            </p>
+
+            <div className="space-y-2">
+              <div className="text-sm font-bold uppercase tracking-wide">
+                {t.setup.bonusBianchi}
+              </div>
+              <Stepper
+                value={bonusWhites}
+                min={-5}
+                max={5}
+                onChange={setBonusWhites}
+              />
+              <div className="font-brand-serif text-xs italic text-brand-rose/90">
+                {t.setup.bonusBianchiHint}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="text-sm font-bold uppercase tracking-wide">
+                {t.setup.bonusEstrazioni}
+              </div>
+              <Stepper
+                value={bonusMaxDraw}
+                min={0}
+                max={2}
+                onChange={setBonusMaxDraw}
+              />
+              <div className="font-brand-serif text-xs italic text-brand-rose/90">
+                {t.setup.bonusEstrazioniHint}
+              </div>
+            </div>
+          </div>
+        </details>
 
         <div className="grid grid-cols-2 divide-x divide-brand-rose/30 border border-brand-rose/30 bg-brand-rose/15 py-4 text-center">
           <div>

@@ -52,7 +52,13 @@
     "tratti": "Traits",
     "neri": "Black",
     "estrai": "DRAW",
-    "reset": "Reset"
+    "reset": "Reset",
+    "avanzateTitle": "Advanced (lessons & abilities)",
+    "avanzateIntro": "Only use these controls if a specific lesson, scar, or ability explicitly allows it. The base rules remain the ones above.",
+    "bonusBianchi": "Bonus white",
+    "bonusBianchiHint": "Added on top of traits, but stays guaranteed even in a confused test (not randomized). E.g. \"Danger is my business\", \"Every defeat makes me stronger\".",
+    "bonusEstrazioni": "Bonus draws",
+    "bonusEstrazioniHint": "Added on top of the base draw limit. Risk adjusts automatically (+1 over the new limit). E.g. \"You have to know how to dare\"."
   },
   "estrazione": {
     "step": "2. Bag",
@@ -65,6 +71,8 @@
     "successi": "White",
     "estrai": "DRAW",
     "rivela": "REVEAL",
+    "rivelaSacchetto": "Show anyway",
+    "rivelaSacchettoHint": "By the rules, the bag composition stays secret while confused. Only use this if a lesson lets you peek, e.g. \"Mind over body\".",
     "rischia": "Risk",
     "reimposta": "Reset current test",
     "rischiaWarning": "If you risk it, you give the narrator all the black tokens drawn. Only risk it if it's truly important!",
@@ -177,7 +185,7 @@
   },
   "privacy": {
     "title": "Privacy Policy",
-    "updated": "Last updated: August 14, 2026",
+    "updated": "Last updated: August 16, 2026",
     "intro": "Not the End Token Bag is a hobby project, developed on a non-profit basis. This page explains what data is processed while using the tool.",
     "sections": [
       {
@@ -186,7 +194,7 @@
       },
       {
         "title": "Rooms mode (multiplayer)",
-        "body": "If you create or join a room, the nickname and optional avatar image you enter, together with the draw results, are transmitted in real time to the other participants in the same room through a server hosted on Cloudflare (PartyKit service). This data exists only in memory for the duration of the session: it is never saved to any database and is deleted when the room empties or the server restarts."
+        "body": "If you create or join a room, the nickname and optional avatar image you enter, together with the draw results, are transmitted in real time to the other participants in the same room through a server hosted on Cloudflare. This data exists only in memory for the duration of the session: it is never saved to any database and is deleted when the room empties or the server restarts."
       },
       {
         "title": "Hosting",

@@ -27,6 +27,8 @@ export const DEFAULT_ROOM_SETUP = {
   difficultyId: "normale",
   blacksOverride: 0,
   maxDraw: 4,
+  bonusWhites: 0,
+  bonusMaxDraw: 0,
   adrenalineActive: false,
   confusionNext: false,
 };

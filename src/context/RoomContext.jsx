@@ -55,6 +55,9 @@ export function RoomProvider({ roomCode, role, identity, children }) {
       resetTest() {
         socket.send(JSON.stringify({ type: "resetTest" }));
       },
+      revealBag() {
+        socket.send(JSON.stringify({ type: "revealBag" }));
+      },
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }),
     [socket]

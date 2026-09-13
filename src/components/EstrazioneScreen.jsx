@@ -27,6 +27,7 @@ export default function EstrazioneScreen({ bag, onMenuClick, onNavigate }) {
     risk,
     resetTest,
     complications,
+    setRevealBag,
   } = bag;
 
   const finished = !canDrawMore && drawn.length > 0;
@@ -91,6 +92,21 @@ export default function EstrazioneScreen({ bag, onMenuClick, onNavigate }) {
             </div>
           </div>
         </div>
+
+        {bagIsSecret && (
+          <div className="space-y-1 text-center">
+            <button
+              type="button"
+              onClick={() => setRevealBag(true)}
+              className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold underline decoration-dotted transition-transform hover:text-brand-gold-light active:scale-95"
+            >
+              {t.estrazione.rivelaSacchetto}
+            </button>
+            <p className="font-brand-serif text-xs italic text-zinc-400">
+              {t.estrazione.rivelaSacchettoHint}
+            </p>
+          </div>
+        )}
 
         <DrawRecap bag={bag} />
 

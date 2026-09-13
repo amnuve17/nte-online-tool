@@ -52,7 +52,13 @@
     "tratti": "Tratti",
     "neri": "Neri",
     "estrai": "ESTRAI",
-    "reset": "Reset"
+    "reset": "Reset",
+    "avanzateTitle": "Avanzate (lezioni e abilità)",
+    "avanzateIntro": "Usa questi controlli solo se una lezione, cicatrice o abilità specifica te lo permette esplicitamente. Le regole base restano quelle qui sopra.",
+    "bonusBianchi": "Bianchi bonus",
+    "bonusBianchiHint": "Si sommano ai tratti, ma restano garantiti anche a sacchetto confuso (non vengono randomizzati). Es. \"Il pericolo è il mio mestiere\", \"Ogni sconfitta mi rende più forte\".",
+    "bonusEstrazioni": "Estrazioni bonus",
+    "bonusEstrazioniHint": "Si sommano al limite base di estrazioni. Il rischio si adegua automaticamente (+1 rispetto al nuovo limite). Es. \"Bisogna saper osare\"."
   },
   "estrazione": {
     "step": "2. Sacchetto",
@@ -65,6 +71,8 @@
     "successi": "Bianchi",
     "estrai": "ESTRAI",
     "rivela": "RIVELA",
+    "rivelaSacchetto": "Mostra comunque",
+    "rivelaSacchettoHint": "Per regola, durante la confusione la composizione resta segreta. Usa questo solo se una lezione ti permette di sbirciare, es. \"La mente sopra il corpo\".",
     "rischia": "Rischia",
     "reimposta": "Reset prova corrente",
     "rischiaWarning": "Se rischi regali al narratore tutti i token neri estratti. Rischia solo se è davvero importante!",
@@ -177,7 +185,7 @@
   },
   "privacy": {
     "title": "Privacy Policy",
-    "updated": "Ultimo aggiornamento: 14 agosto 2026",
+    "updated": "Ultimo aggiornamento: 16 agosto 2026",
     "intro": "Not the End Token Bag è un progetto amatoriale, sviluppato senza scopo di lucro. Questa pagina spiega quali dati vengono trattati durante l'utilizzo dello strumento.",
     "sections": [
       {
@@ -186,7 +194,7 @@
       },
       {
         "title": "Modalità Stanze (multiplayer)",
-        "body": "Se scegli di creare o entrare in una stanza, il nickname e l'eventuale immagine avatar che inserisci, insieme ai risultati delle estrazioni, vengono trasmessi in tempo reale agli altri partecipanti della stessa stanza tramite un server ospitato su Cloudflare (servizio PartyKit). Questi dati esistono solo in memoria per la durata della sessione: non vengono salvati su alcun database e vengono cancellati quando la stanza si svuota o il server viene riavviato."
+        "body": "Se scegli di creare o entrare in una stanza, il nickname e l'eventuale immagine avatar che inserisci, insieme ai risultati delle estrazioni, vengono trasmessi in tempo reale agli altri partecipanti della stessa stanza tramite un server ospitato su Cloudflare. Questi dati esistono solo in memoria per la durata della sessione: non vengono salvati su alcun database e vengono cancellati quando la stanza si svuota o il server viene riavviato."
       },
       {
         "title": "Hosting",

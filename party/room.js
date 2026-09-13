@@ -14,34 +14,42 @@ function sanitizeSetup(input, prev) {
     difficultyId: DIFFICULTY_BLACKS[s.difficultyId] ? s.difficultyId : "normale",
     blacksOverride: clampInt(s.blacksOverride, 0, 99),
     maxDraw: clampInt(s.maxDraw, 1, 4),
+    bonusWhites: clampInt(s.bonusWhites, -5, 5),
+    bonusMaxDraw: clampInt(s.bonusMaxDraw, 0, 2),
     adrenalineActive: !!s.adrenalineActive,
     confusionNext: !!s.confusionNext,
   };
 }
 
 function inputCounts(setup) {
-  const inputWhites = clampInt(setup.traitsInPlay, 0, 12);
+  const traitsWhites = clampInt(setup.traitsInPlay, 0, 12);
+  const bonusWhites = clampInt(setup.bonusWhites, -5, 5);
+  const inputWhites = Math.max(0, traitsWhites + bonusWhites);
   const inputBlacks =
     setup.blacksOverride > 0
       ? clampInt(setup.blacksOverride, 0, 99)
       : DIFFICULTY_BLACKS[setup.difficultyId] ?? DIFFICULTY_BLACKS.normale;
-  return { inputWhites, inputBlacks };
+  return { traitsWhites, bonusWhites, inputWhites, inputBlacks };
 }
 
 function baseMaxDrawOf(setup) {
-  return setup.adrenalineActive ? 4 : clampInt(setup.maxDraw, 1, 4);
+  const base = setup.adrenalineActive ? 4 : clampInt(setup.maxDraw, 1, 4);
+  return base + clampInt(setup.bonusMaxDraw, 0, 2);
 }
 
 function startNewTest(state) {
-  const { inputWhites, inputBlacks } = inputCounts(state.setup);
+  const { traitsWhites, bonusWhites, inputWhites, inputBlacks } = inputCounts(state.setup);
   if (state.setup.confusionNext) {
-    const { w, b } = randomTraitTokens(inputWhites);
+    // Solo i token dei tratti sono soggetti a confusione: i bianchi bonus
+    // (lezioni) restano garantiti e si aggiungono dopo, senza randomizzarli.
+    const { w, b } = randomTraitTokens(traitsWhites);
     state.test = {
-      bagW: w,
+      bagW: Math.max(0, w + bonusWhites),
       bagB: inputBlacks + b,
       drawn: [],
       riskActive: false,
       confusionThisTest: true,
+      revealed: false,
     };
     state.setup = { ...state.setup, confusionNext: false };
     return;
@@ -52,6 +60,7 @@ function startNewTest(state) {
     drawn: [],
     riskActive: false,
     confusionThisTest: false,
+    revealed: false,
   };
 }
 
@@ -64,6 +73,7 @@ function resetTestState(state) {
     drawn: [],
     riskActive: false,
     confusionThisTest: false,
+    revealed: false,
   };
 }
 
@@ -71,7 +81,7 @@ function drawOne(state) {
   const test = state.test;
   if (!test) return;
   const baseMaxDraw = baseMaxDrawOf(state.setup);
-  const effectiveMaxDraw = test.riskActive ? 5 : baseMaxDraw;
+  const effectiveMaxDraw = test.riskActive ? baseMaxDraw + 1 : baseMaxDraw;
   const totalInBag = test.bagW + test.bagB;
   const canDrawMore = test.drawn.length < effectiveMaxDraw && totalInBag > 0;
   if (!canDrawMore) return;
@@ -90,9 +100,14 @@ function riskOne(state) {
   const baseMaxDraw = baseMaxDrawOf(state.setup);
   const totalInBag = test.bagW + test.bagB;
   if (test.drawn.length !== baseMaxDraw) return;
-  if (baseMaxDraw >= 5) return;
   if (totalInBag <= 0) return;
   test.riskActive = true;
+}
+
+function revealBag(state) {
+  const test = state.test;
+  if (!test) return;
+  test.revealed = true;
 }
 
 const HISTORY_LIMIT = 30;
@@ -232,6 +247,12 @@ export class Room extends DurableObject {
       case "risk": {
         if (!isActivePlayer) return;
         riskOne(this.state);
+        break;
+      }
+
+      case "revealBag": {
+        if (!isActivePlayer && !isMaster) return;
+        revealBag(this.state);
         break;
       }
 
