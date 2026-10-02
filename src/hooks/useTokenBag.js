@@ -70,9 +70,12 @@ export default function useTokenBag() {
   const bonusWhitesClamped = clampInt(bonusWhites, -5, 5);
   const inputWhites = Math.max(0, traitsWhites + bonusWhitesClamped);
 
-  const baseMaxDraw =
-    (adrenalineActive ? 4 : clampInt(maxDraw, 1, 4)) + clampInt(bonusMaxDraw, 0, 2);
-  const effectiveMaxDraw = riskActive ? baseMaxDraw + 1 : baseMaxDraw;
+  const bonusMaxDrawClamped = clampInt(bonusMaxDraw, 0, 2);
+  const baseMaxDraw = (adrenalineActive ? 4 : clampInt(maxDraw, 1, 4)) + bonusMaxDrawClamped;
+  // Il rischio porta sempre al tetto fisso di regolamento (5), non a
+  // "baseMaxDraw + 1": se la prova richiedeva solo 2 estrazioni, rischiare
+  // deve comunque portare a un totale di 5, non di 3.
+  const effectiveMaxDraw = riskActive ? 5 + bonusMaxDrawClamped : baseMaxDraw;
 
   const totalInBag = bagW + bagB;
   const canDrawMore = drawn.length < effectiveMaxDraw && totalInBag > 0;

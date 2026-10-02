@@ -37,6 +37,13 @@ function baseMaxDrawOf(setup) {
   return base + clampInt(setup.bonusMaxDraw, 0, 2);
 }
 
+// Il rischio porta sempre al tetto fisso di regolamento (5), non a
+// "baseMaxDraw + 1": se la prova richiedeva solo 2 estrazioni, rischiare
+// deve comunque portare a un totale di 5 (6 con "Estrazioni bonus").
+function riskCeilingOf(setup) {
+  return 5 + clampInt(setup.bonusMaxDraw, 0, 2);
+}
+
 function startNewTest(state) {
   const { traitsWhites, bonusWhites, inputWhites, inputBlacks } = inputCounts(state.setup);
   if (state.setup.confusionNext) {
@@ -81,7 +88,7 @@ function drawOne(state) {
   const test = state.test;
   if (!test) return;
   const baseMaxDraw = baseMaxDrawOf(state.setup);
-  const effectiveMaxDraw = test.riskActive ? baseMaxDraw + 1 : baseMaxDraw;
+  const effectiveMaxDraw = test.riskActive ? riskCeilingOf(state.setup) : baseMaxDraw;
   const totalInBag = test.bagW + test.bagB;
   const canDrawMore = test.drawn.length < effectiveMaxDraw && totalInBag > 0;
   if (!canDrawMore) return;

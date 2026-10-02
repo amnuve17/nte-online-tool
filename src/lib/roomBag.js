@@ -6,9 +6,9 @@ import { clampInt } from "./bagMath.js";
 export function deriveRoomBag(state, actions) {
   const setup = state.setup;
   const test = state.test;
+  const bonusMaxDrawClamped = clampInt(setup.bonusMaxDraw, 0, 2);
   const baseMaxDraw =
-    (setup.adrenalineActive ? 4 : clampInt(setup.maxDraw, 1, 4)) +
-    clampInt(setup.bonusMaxDraw, 0, 2);
+    (setup.adrenalineActive ? 4 : clampInt(setup.maxDraw, 1, 4)) + bonusMaxDrawClamped;
 
   if (!test) {
     return {
@@ -30,7 +30,9 @@ export function deriveRoomBag(state, actions) {
     };
   }
 
-  const effectiveMaxDraw = test.riskActive ? baseMaxDraw + 1 : baseMaxDraw;
+  // Il rischio porta sempre al tetto fisso di regolamento (5), non a
+  // "baseMaxDraw + 1" (vedi party/room.js:riskCeilingOf, stessa logica).
+  const effectiveMaxDraw = test.riskActive ? 5 + bonusMaxDrawClamped : baseMaxDraw;
   const totalInBag = test.bagW + test.bagB;
   const canDrawMore = test.drawn.length < effectiveMaxDraw && totalInBag > 0;
   const drawnW = test.drawn.filter((x) => x === "W").length;
