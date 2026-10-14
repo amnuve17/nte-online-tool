@@ -6,7 +6,6 @@ import PageShell from "./PageShell.jsx";
 import RoomDrawPanel from "./RoomDrawPanel.jsx";
 import RoomHistory from "./RoomHistory.jsx";
 import RoomPlayerList from "./RoomPlayerList.jsx";
-import Select from "./Select.jsx";
 import Stepper from "./Stepper.jsx";
 
 export default function RoomMasterPanel({ roomCode, onLeave, onMenuClick, onNavigate }) {
@@ -18,10 +17,15 @@ export default function RoomMasterPanel({ roomCode, onLeave, onMenuClick, onNavi
     actions.setSetup({ ...setup, ...patch });
   }
 
-  const selectOptions = Object.keys(DIFFICULTY_BLACKS).map((id) => ({
-    value: id,
-    label: `${t.difficulty[id]} (${DIFFICULTY_BLACKS[id]} ${t.difficulty.neriSuffix})`,
-  }));
+  // Mostra il grado di difficoltà accanto al campo "Neri" solo quando il
+  // valore impostato coincide con uno standard (1-6), eliminando il
+  // concetto di "override" che risultava poco chiaro ai nuovi giocatori.
+  // Oltre il 6 (fuori dalle difficoltà di regolamento) segnaliamo che è un
+  // valore personalizzato.
+  const matchedDifficultyId = Object.keys(DIFFICULTY_BLACKS).find(
+    (id) => DIFFICULTY_BLACKS[id] === setup.blacksValue
+  );
+  const isCustomBlacks = setup.blacksValue > 6;
 
   const playerEntries = Object.entries(players).sort(([idA], [idB]) => {
     if (idA === state.masterId) return -1;
@@ -53,18 +57,6 @@ export default function RoomMasterPanel({ roomCode, onLeave, onMenuClick, onNavi
 
           <div className="space-y-2">
             <div className="text-sm font-bold uppercase tracking-wide">
-              {t.setup.difficolta}
-            </div>
-            <Select
-              value={setup.difficultyId}
-              onChange={(v) => updateSetup({ difficultyId: v })}
-              options={selectOptions}
-              placeholder={t.setup.selectPlaceholder}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <div className="text-sm font-bold uppercase tracking-wide">
               {t.setup.trattiInGioco}
             </div>
             <Stepper
@@ -79,17 +71,27 @@ export default function RoomMasterPanel({ roomCode, onLeave, onMenuClick, onNavi
           </div>
 
           <div className="space-y-2">
-            <div className="text-sm font-bold uppercase tracking-wide">
-              {t.setup.overrideNeri}
+            <div className="flex items-baseline gap-2 text-sm font-bold uppercase tracking-wide">
+              {t.setup.neri}
+              {matchedDifficultyId && (
+                <span className="text-xs font-normal normal-case text-brand-gold">
+                  ({t.difficulty[matchedDifficultyId]})
+                </span>
+              )}
+              {isCustomBlacks && (
+                <span className="text-xs font-normal normal-case text-brand-gold">
+                  ({t.setup.neriPersonalizzato})
+                </span>
+              )}
             </div>
             <Stepper
-              value={setup.blacksOverride}
+              value={setup.blacksValue}
               min={0}
               max={99}
-              onChange={(v) => updateSetup({ blacksOverride: v })}
+              onChange={(v) => updateSetup({ blacksValue: v })}
             />
             <div className="font-brand-serif text-xs italic text-brand-rose/90">
-              {t.setup.overrideHint}
+              {t.setup.neriHint}
             </div>
           </div>
 

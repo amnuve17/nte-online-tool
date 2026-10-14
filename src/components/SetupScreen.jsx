@@ -2,7 +2,6 @@ import { useTranslations } from "../i18n/LanguageContext.jsx";
 import Header from "./Header.jsx";
 import HexButton from "./HexButton.jsx";
 import PageShell from "./PageShell.jsx";
-import Select from "./Select.jsx";
 import Stepper from "./Stepper.jsx";
 
 export default function SetupScreen({ bag, onMenuClick, onEstrai, onNavigate }) {
@@ -11,10 +10,8 @@ export default function SetupScreen({ bag, onMenuClick, onEstrai, onNavigate }) 
     difficultyOptions,
     traitsInPlay,
     setTraitsInPlay,
-    difficultyId,
-    setDifficultyId,
-    blacksOverride,
-    setBlacksOverride,
+    blacksValue,
+    setBlacksValue,
     maxDraw,
     setMaxDraw,
     bonusWhites,
@@ -31,10 +28,13 @@ export default function SetupScreen({ bag, onMenuClick, onEstrai, onNavigate }) 
     resetAll,
   } = bag;
 
-  const selectOptions = difficultyOptions.map((d) => ({
-    value: d.id,
-    label: `${d.label} (${d.blacks} ${t.difficulty.neriSuffix})`,
-  }));
+  // Mostra il grado di difficoltà accanto al campo "Neri" solo quando il
+  // valore impostato coincide con uno standard (1-6): elimina il concetto
+  // di "override", che in test con gli utenti risultava poco chiaro. Oltre
+  // il 6 (fuori dalle difficoltà di regolamento) segnaliamo che è un
+  // valore personalizzato.
+  const matchedDifficulty = difficultyOptions.find((d) => d.blacks === blacksValue);
+  const isCustomBlacks = blacksValue > 6;
 
   function handleEstrai() {
     newTest();
@@ -54,18 +54,6 @@ export default function SetupScreen({ bag, onMenuClick, onEstrai, onNavigate }) 
       <div className="space-y-6 px-6 pb-10">
         <div className="space-y-2">
           <div className="text-sm font-bold uppercase tracking-wide">
-            {t.setup.difficolta}
-          </div>
-          <Select
-            value={difficultyId}
-            onChange={setDifficultyId}
-            options={selectOptions}
-            placeholder={t.setup.selectPlaceholder}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <div className="text-sm font-bold uppercase tracking-wide">
             {t.setup.trattiInGioco}
           </div>
           <Stepper
@@ -80,17 +68,27 @@ export default function SetupScreen({ bag, onMenuClick, onEstrai, onNavigate }) 
         </div>
 
         <div className="space-y-2">
-          <div className="text-sm font-bold uppercase tracking-wide">
-            {t.setup.overrideNeri}
+          <div className="flex items-baseline gap-2 text-sm font-bold uppercase tracking-wide">
+            {t.setup.neri}
+            {matchedDifficulty && (
+              <span className="text-xs font-normal normal-case text-brand-gold">
+                ({matchedDifficulty.label})
+              </span>
+            )}
+            {isCustomBlacks && (
+              <span className="text-xs font-normal normal-case text-brand-gold">
+                ({t.setup.neriPersonalizzato})
+              </span>
+            )}
           </div>
           <Stepper
-            value={blacksOverride}
+            value={blacksValue}
             min={0}
             max={99}
-            onChange={setBlacksOverride}
+            onChange={setBlacksValue}
           />
           <div className="font-brand-serif text-xs italic text-brand-rose/90">
-            {t.setup.overrideHint}
+            {t.setup.neriHint}
           </div>
         </div>
 

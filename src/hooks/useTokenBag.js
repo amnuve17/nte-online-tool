@@ -24,8 +24,7 @@ export default function useTokenBag() {
 
   // --- input “regolamento” ---
   const [traitsInPlay, setTraitsInPlay] = useState(3);
-  const [difficultyId, setDifficultyId] = useState("");
-  const [blacksOverride, setBlacksOverride] = useState(0); // 0 = nessun override
+  const [blacksValue, setBlacksValue] = useState(DIFFICULTY_BLACKS.normale);
 
   // --- opzioni prova ---
   const [maxDraw, setMaxDraw] = useState(4); // limite base 1–4
@@ -54,17 +53,11 @@ export default function useTokenBag() {
   const [drawn, setDrawn] = useState([]); // ["W","B",...]
   const [history, setHistory] = useState([]);
 
+  // Usata solo per mostrare il nome del grado di difficoltà accanto al
+  // campo "Neri" quando il valore impostato coincide con uno standard.
   const difficultyOptions = useMemo(() => buildDifficulty(t), [t]);
 
-  const difficulty = useMemo(
-    () =>
-      difficultyOptions.find((d) => d.id === difficultyId) ||
-      difficultyOptions[2],
-    [difficultyOptions, difficultyId]
-  );
-
-  const inputBlacks =
-    blacksOverride > 0 ? clampInt(blacksOverride, 0, 99) : difficulty.blacks;
+  const inputBlacks = clampInt(blacksValue, 0, 99);
 
   const traitsWhites = clampInt(traitsInPlay, 0, 12);
   const bonusWhitesClamped = clampInt(bonusWhites, -5, 5);
@@ -156,8 +149,7 @@ export default function useTokenBag() {
 
   function resetAll() {
     setTraitsInPlay(3);
-    setDifficultyId("");
-    setBlacksOverride(0);
+    setBlacksValue(DIFFICULTY_BLACKS.normale);
     setMaxDraw(4);
     setBonusWhites(0);
     setBonusMaxDraw(0);
@@ -182,10 +174,8 @@ export default function useTokenBag() {
     difficultyOptions,
     traitsInPlay,
     setTraitsInPlay,
-    difficultyId,
-    setDifficultyId,
-    blacksOverride,
-    setBlacksOverride,
+    blacksValue,
+    setBlacksValue,
     maxDraw,
     setMaxDraw,
     bonusWhites,

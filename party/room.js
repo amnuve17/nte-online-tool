@@ -1,7 +1,6 @@
 import { DurableObject } from "cloudflare:workers";
 import {
   DEFAULT_ROOM_SETUP,
-  DIFFICULTY_BLACKS,
   clampInt,
   drawOneFromCounts,
   randomTraitTokens,
@@ -11,8 +10,7 @@ function sanitizeSetup(input, prev) {
   const s = { ...prev, ...input };
   return {
     traitsInPlay: clampInt(s.traitsInPlay, 0, 12),
-    difficultyId: DIFFICULTY_BLACKS[s.difficultyId] ? s.difficultyId : "normale",
-    blacksOverride: clampInt(s.blacksOverride, 0, 99),
+    blacksValue: clampInt(s.blacksValue, 0, 99),
     maxDraw: clampInt(s.maxDraw, 1, 4),
     bonusWhites: clampInt(s.bonusWhites, -5, 5),
     bonusMaxDraw: clampInt(s.bonusMaxDraw, 0, 2),
@@ -25,10 +23,7 @@ function inputCounts(setup) {
   const traitsWhites = clampInt(setup.traitsInPlay, 0, 12);
   const bonusWhites = clampInt(setup.bonusWhites, -5, 5);
   const inputWhites = Math.max(0, traitsWhites + bonusWhites);
-  const inputBlacks =
-    setup.blacksOverride > 0
-      ? clampInt(setup.blacksOverride, 0, 99)
-      : DIFFICULTY_BLACKS[setup.difficultyId] ?? DIFFICULTY_BLACKS.normale;
+  const inputBlacks = clampInt(setup.blacksValue, 0, 99);
   return { traitsWhites, bonusWhites, inputWhites, inputBlacks };
 }
 

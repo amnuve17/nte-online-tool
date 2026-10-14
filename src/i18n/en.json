@@ -31,18 +31,15 @@
     "normale": "Normal",
     "difficile": "Hard",
     "difficilissima": "Very Hard",
-    "quasi_impossibile": "Nearly Impossible",
-    "neriSuffix": "black"
+    "quasi_impossibile": "Nearly Impossible"
   },
   "setup": {
     "step": "1. Setup",
-    "description": "Choose the number of traits in play, the difficulty of the test, how many tokens to draw, and optionally set the confused status or adrenaline (Danger is not handled directly: it depends on the game master and doesn't affect the draw).",
-    "difficolta": "Difficulty",
-    "selectPlaceholder": "Select",
+    "description": "Choose the number of traits in play, the black tokens of the test, how many tokens to draw, and optionally set the confused status or adrenaline (Danger is not handled directly: it depends on the game master and doesn't affect the draw).",
     "trattiInGioco": "Traits in play",
     "trattiHint": "Normal: +1 white per trait. Confusion: trait tokens are randomly drawn as white or black.",
-    "overrideNeri": "Black override (optional)",
-    "overrideHint": "0: No override",
+    "neriHint": "How many black tokens the test puts into play. If it matches a standard difficulty level (1-6), we'll show it right here.",
+    "neriPersonalizzato": "Impossible",
     "maxEstrazioni": "Tokens to draw",
     "maxEstrazioniHint": "From 1 to 4 draws",
     "adrenalina": "Adrenaline (optional)",

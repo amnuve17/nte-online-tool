@@ -24,8 +24,7 @@ export const DIFFICULTY_BLACKS = {
 // primo avvio, sia dal client per il pulsante "torna al setup".
 export const DEFAULT_ROOM_SETUP = {
   traitsInPlay: 3,
-  difficultyId: "normale",
-  blacksOverride: 0,
+  blacksValue: DIFFICULTY_BLACKS.normale,
   maxDraw: 4,
   bonusWhites: 0,
   bonusMaxDraw: 0,
