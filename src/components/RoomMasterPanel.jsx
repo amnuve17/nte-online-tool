@@ -17,15 +17,21 @@ export default function RoomMasterPanel({ roomCode, onLeave, onMenuClick, onNavi
     actions.setSetup({ ...setup, ...patch });
   }
 
+  // Fallback per stanze create prima dell'introduzione di questo campo: il
+  // loro stato salvato sul server non lo contiene ancora, quindi senza
+  // questo default lo stepper risulterebbe vuoto finché il master non lo
+  // tocca (stesso trattamento già riservato a bonusWhites/bonusMaxDraw).
+  const blacksValue = setup.blacksValue ?? DIFFICULTY_BLACKS.normale;
+
   // Mostra il grado di difficoltà accanto al campo "Neri" solo quando il
   // valore impostato coincide con uno standard (1-6), eliminando il
   // concetto di "override" che risultava poco chiaro ai nuovi giocatori.
   // Oltre il 6 (fuori dalle difficoltà di regolamento) segnaliamo che è un
   // valore personalizzato.
   const matchedDifficultyId = Object.keys(DIFFICULTY_BLACKS).find(
-    (id) => DIFFICULTY_BLACKS[id] === setup.blacksValue
+    (id) => DIFFICULTY_BLACKS[id] === blacksValue
   );
-  const isCustomBlacks = setup.blacksValue > 6;
+  const isCustomBlacks = blacksValue > 6;
 
   const playerEntries = Object.entries(players).sort(([idA], [idB]) => {
     if (idA === state.masterId) return -1;
@@ -85,7 +91,7 @@ export default function RoomMasterPanel({ roomCode, onLeave, onMenuClick, onNavi
               )}
             </div>
             <Stepper
-              value={setup.blacksValue}
+              value={blacksValue}
               min={0}
               max={99}
               onChange={(v) => updateSetup({ blacksValue: v })}
